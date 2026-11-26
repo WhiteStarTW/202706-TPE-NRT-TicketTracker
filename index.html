@@ -46,6 +46,9 @@
       border-radius: 9999px;
     }
   </style>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen antialiased">
 
@@ -78,6 +81,18 @@
             <i data-lucide="database" class="w-4 h-4"></i>
             <span>匯入 / 匯出</span>
           </button>
+          <div id="authHeaderBox" class="inline-flex items-center gap-1.5">
+            <button id="btnGoogleAuth" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white hover:bg-slate-100 text-slate-800 text-xs sm:text-sm font-medium transition cursor-pointer shadow-sm">
+              <i data-lucide="user" class="w-4 h-4 text-indigo-600"></i>
+              <span id="btnGoogleAuthLabel">Google 登入收藏</span>
+            </button>
+            <div id="authUserPill" class="hidden items-center gap-2 px-2.5 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-xs text-slate-100">
+              <img id="authUserAvatar" src="" alt="avatar" class="w-5 h-5 rounded-full object-cover hidden" />
+              <span id="authUserName" class="max-w-[110px] truncate font-medium"></span>
+              <span id="cloudSyncBadge" class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">雲端同步</span>
+              <button id="btnGoogleSignOut" type="button" class="text-slate-400 hover:text-rose-300 cursor-pointer ml-0.5" title="登出 Google 帳號">登出</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -3262,6 +3277,7 @@
               showToast('已加入收藏');
             }
             savePersistedState();
+            saveCloudFavorites();
             renderAll();
           } else if (btn.dataset.action === 'detail') {
             openDetailModal(id);
@@ -3399,6 +3415,175 @@
 
 
 
+
+    const DEFAULT_FIREBASE_CONFIG = {
+      apiKey: "AIzaSyByMU2c92lGSBsFgLNLqSoPT-MTx094VnA",
+      authDomain: "tpe-nrt-202606tickettrack.firebaseapp.com",
+      projectId: "tpe-nrt-202606tickettrack",
+      storageBucket: "tpe-nrt-202606tickettrack.firebasestorage.app",
+      messagingSenderId: "1090254016686",
+      appId: "1:1090254016686:web:9d662cb595724b6e8a9d3f"
+    };
+    let firebaseAppInstance = null;
+    let firebaseAuthInstance = null;
+    let firestoreDbInstance = null;
+    let currentGoogleUser = null;
+    let favoritesUnsubscribe = null;
+
+    function updateAuthUI() {
+      const btn = document.getElementById('btnGoogleAuth');
+      const pill = document.getElementById('authUserPill');
+      const avatar = document.getElementById('authUserAvatar');
+      const nameEl = document.getElementById('authUserName');
+      if (!btn || !pill) return;
+      if (currentGoogleUser) {
+        btn.classList.add('hidden');
+        pill.classList.remove('hidden');
+        pill.classList.add('inline-flex');
+        if (nameEl) nameEl.textContent = currentGoogleUser.displayName || currentGoogleUser.email || '已登入';
+        if (avatar) {
+          if (currentGoogleUser.photoURL) {
+            avatar.src = currentGoogleUser.photoURL;
+            avatar.classList.remove('hidden');
+          } else {
+            avatar.classList.add('hidden');
+          }
+        }
+      } else {
+        btn.classList.remove('hidden');
+        pill.classList.add('hidden');
+        pill.classList.remove('inline-flex');
+      }
+    }
+
+    async function saveCloudFavorites() {
+      if (!currentGoogleUser || !firestoreDbInstance) return;
+      try {
+        await firestoreDbInstance
+          .collection('users')
+          .doc(currentGoogleUser.uid)
+          .collection('flightTracker')
+          .doc('favorites')
+          .set({
+            favorites: Array.isArray(state.favorites) ? state.favorites : [],
+            email: currentGoogleUser.email || '',
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
+      } catch (e) {
+        console.warn('Firestore save error:', e);
+      }
+    }
+
+    function attachCloudFavoritesListener(user) {
+      if (favoritesUnsubscribe) {
+        try { favoritesUnsubscribe(); } catch (e) {}
+        favoritesUnsubscribe = null;
+      }
+      if (!user || !firestoreDbInstance) return;
+      const docRef = firestoreDbInstance
+        .collection('users')
+        .doc(user.uid)
+        .collection('flightTracker')
+        .doc('favorites');
+      let initialMerged = false;
+      favoritesUnsubscribe = docRef.onSnapshot((snap) => {
+        const cloudFavs = (snap.exists && snap.data() && Array.isArray(snap.data().favorites))
+          ? snap.data().favorites
+          : [];
+        if (!initialMerged) {
+          initialMerged = true;
+          const merged = Array.from(new Set([...(state.favorites || []), ...cloudFavs]));
+          state.favorites = merged;
+          savePersistedState();
+          renderAll();
+          if (merged.length !== cloudFavs.length) {
+            saveCloudFavorites();
+          }
+        } else {
+          state.favorites = cloudFavs;
+          savePersistedState();
+          renderAll();
+        }
+      }, (err) => {
+        console.warn('Firestore snapshot error:', err);
+      });
+    }
+
+    function initFirebaseAuthIfReady() {
+      if (typeof firebase === 'undefined') {
+        updateAuthUI();
+        return false;
+      }
+      try {
+        if (!firebaseAppInstance) {
+          firebaseAppInstance = firebase.apps && firebase.apps.length
+            ? firebase.apps[0]
+            : firebase.initializeApp(DEFAULT_FIREBASE_CONFIG);
+        }
+        firebaseAuthInstance = firebase.auth();
+        firestoreDbInstance = firebase.firestore();
+        firebaseAuthInstance.getRedirectResult().catch(() => {});
+        firebaseAuthInstance.onAuthStateChanged((user) => {
+          currentGoogleUser = user || null;
+          updateAuthUI();
+          if (user) {
+            attachCloudFavoritesListener(user);
+          } else if (favoritesUnsubscribe) {
+            try { favoritesUnsubscribe(); } catch (e) {}
+            favoritesUnsubscribe = null;
+          }
+        });
+        const btnAuth = document.getElementById('btnGoogleAuth');
+        if (btnAuth && !btnAuth.dataset.boundAuth) {
+          btnAuth.dataset.boundAuth = '1';
+          btnAuth.addEventListener('click', handleGoogleSignInClick);
+        }
+        const btnOut = document.getElementById('btnGoogleSignOut');
+        if (btnOut && !btnOut.dataset.boundOut) {
+          btnOut.dataset.boundOut = '1';
+          btnOut.addEventListener('click', async () => {
+            if (!firebaseAuthInstance) return;
+            try {
+              await firebaseAuthInstance.signOut();
+              showToast('已登出 Google 帳號');
+            } catch (e) {
+              showToast('登出失敗，請稍後再試');
+            }
+          });
+        }
+        return true;
+      } catch (e) {
+        updateAuthUI();
+        return false;
+      }
+    }
+
+    async function handleGoogleSignInClick() {
+      if (typeof firebase === 'undefined') {
+        showToast('目前環境無法載入 Firebase SDK，請於公開網址開啟');
+        return;
+      }
+      if (!firebaseAuthInstance && !initFirebaseAuthIfReady()) {
+        showToast('Firebase 初始化失敗，請重新整理頁面');
+        return;
+      }
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        await firebaseAuthInstance.signInWithPopup(provider);
+        showToast('已登入 Google 帳號並同步雲端收藏');
+      } catch (e) {
+        if (e && (e.code === 'auth/popup-blocked' || e.code === 'auth/operation-not-supported-in-this-environment')) {
+          try {
+            await firebaseAuthInstance.signInWithRedirect(provider);
+          } catch (e2) {
+            showToast('Google 登入受限，請確認已於 Firebase 授權網域');
+          }
+        } else {
+          showToast('Google 登入未完成：' + (e && e.message ? e.message : '請確認已授權網域'));
+        }
+      }
+    }
+
     function initTrackerApp() {
       loadPersistedState();
       if (!state.historyIsSingle) {
@@ -3419,6 +3604,7 @@
       populateHourlyRangeSelect();
       bindEvents();
       renderAll();
+      initFirebaseAuthIfReady();
       syncFromGoogleSheet(false);
       setInterval(() => {
         updateNextHourlyStatus();
