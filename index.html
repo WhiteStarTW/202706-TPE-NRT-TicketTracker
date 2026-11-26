@@ -77,10 +77,6 @@
             <i data-lucide="refresh-cw" class="w-4 h-4"></i>
             <span>立即同步</span>
           </button>
-          <button id="btnOpenDataModal" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs sm:text-sm font-medium transition cursor-pointer">
-            <i data-lucide="database" class="w-4 h-4"></i>
-            <span>匯入 / 匯出</span>
-          </button>
           <div id="authHeaderBox" class="inline-flex items-center gap-1.5">
             <button id="btnGoogleAuth" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white hover:bg-slate-100 text-slate-800 text-xs sm:text-sm font-medium transition cursor-pointer shadow-sm">
               <i data-lucide="user" class="w-4 h-4 text-indigo-600"></i>
@@ -242,6 +238,13 @@
             <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400"></i>
             <span>僅看收藏</span>
           </button>
+          <div class="inline-flex items-center gap-1.5 ml-0 sm:ml-2">
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">排序</span>
+            <div class="inline-flex rounded-xl border border-slate-200 p-0.5 bg-slate-50" role="group" aria-label="航班排序方式">
+              <button type="button" data-sort-mode="price" class="sort-mode-btn tab-active px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">最低價格</button>
+              <button type="button" data-sort-mode="time" class="sort-mode-btn tab-inactive px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">出發時間</button>
+            </div>
+          </div>
         </div>
 
         <!-- Search & Price Mode -->
@@ -310,6 +313,39 @@
           <span class="text-[11px] text-slate-400">資料自動同步自 Google 試算表「歷史走勢」分頁</span>
         </div>
         <div id="historyList" class="space-y-2 max-h-44 overflow-y-auto pr-1"></div>
+      </div>
+    </section>
+
+    <!-- Favorites Section (Unlimited) -->
+    <section id="tableSectionFavorites" class="bg-white rounded-2xl border border-amber-200 shadow-sm overflow-hidden" aria-label="已收藏航班清單">
+      <div class="px-4 sm:px-5 py-4 border-b border-amber-200/80 bg-gradient-to-r from-amber-50/90 via-yellow-50/50 to-white flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5">
+          <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-amber-100 text-amber-600 font-bold text-xs">
+            <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-500"></i>
+          </span>
+          <div>
+            <h2 class="text-base font-bold text-slate-900">已收藏航班清單</h2>
+            <p class="text-xs text-slate-500">不限 5 筆顯示所有已加入星號的航班組合；登入 Google 帳號可跨裝置雲端同步</p>
+          </div>
+        </div>
+        <span id="favTableBadge" class="text-xs font-medium px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 self-start sm:self-center">已收藏 0 筆</span>
+      </div>
+      <div class="overflow-x-auto table-scroll">
+        <table class="w-full text-left border-collapse min-w-[860px]">
+          <thead>
+            <tr class="bg-slate-50/90 text-[11px] font-semibold text-slate-500 uppercase tracking-wider border-b border-slate-200">
+              <th class="py-3 px-4 w-16">序號</th>
+              <th class="py-3 px-3 w-36">退改分類</th>
+              <th class="py-3 px-3">去程 (TPE→NRT)</th>
+              <th class="py-3 px-3">回程 (NRT→TPE)</th>
+              <th class="py-3 px-3 text-right">參考價位</th>
+              <th class="py-3 px-3 w-56">行李與退改票政策</th>
+              <th class="py-3 px-3 w-48">選位政策與試算</th>
+              <th class="py-3 px-3 w-36 text-center">操作／購票</th>
+            </tr>
+          </thead>
+          <tbody id="favTableBody" class="divide-y divide-slate-100 text-sm"></tbody>
+        </table>
       </div>
     </section>
 
@@ -452,8 +488,12 @@
       </div>
     </section>
 
-    <footer class="text-xs text-slate-400 text-center pb-6">
-      資料基準日：2026 年 11 月 25 日（票價與班號依當日查價與定期班表整理，實際開票金額與 2027 夏季班表請以各航空公司官網為準）。
+    <footer class="text-xs text-slate-400 text-center pb-6 space-y-2">
+      <p>資料基準日：2026 年 11 月 25 日（票價與班號依當日查價與定期班表整理，實際開票金額與 2027 夏季班表請以各航空公司官網為準）。</p>
+      <p class="pt-3">
+        <button id="btnVersionInfo" type="button" class="text-indigo-500 hover:text-indigo-600 hover:underline font-medium cursor-pointer">網頁版本資訊</button>
+      </p>
+      <p>Made by Isaac Yang with Gemini AI &amp;  Firebase &amp; GitHub</p>
     </footer>
   </main>
 
@@ -470,23 +510,67 @@
     </div>
   </div>
 
-  <!-- Modal 3: JSON Import / Export -->
-  <div id="dataModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4">
-    <div class="bg-white rounded-2xl max-w-lg w-full p-5 shadow-xl border border-slate-200">
-      <div class="flex items-center justify-between mb-3">
-        <h3 class="text-base font-bold text-slate-900">匯入 / 匯出追蹤資料 (JSON)</h3>
-        <button type="button" data-close-modal="dataModal" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer">
+  <!-- Modal: Version Changelog -->
+  <div id="versionModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-5 shadow-xl border border-slate-200 max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-3 pb-2.5 border-b border-slate-100">
+        <h3 class="text-base font-bold text-slate-900">網頁版本資訊 — Changelog</h3>
+        <button type="button" data-close-modal="versionModal" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
-      <p class="text-xs text-slate-500 mb-3">可複製目前看板資料與歷史快照作備份，或貼上更新後的 JSON 以同步每日排程回報的新票價。</p>
-      <textarea id="jsonTextarea" rows="8" class="w-full p-3 text-xs font-mono rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30"></textarea>
-      <div id="jsonError" class="hidden mt-2 text-xs text-rose-600 font-medium"></div>
-      <div class="flex flex-wrap items-center justify-between gap-2 mt-4">
-        <button id="btnResetDefault" type="button" class="px-3 py-2 rounded-xl border border-rose-200 text-rose-600 hover:bg-rose-50 text-xs font-medium cursor-pointer">重設為 2026/11/25 預設值</button>
-        <div class="flex items-center gap-2">
-          <button id="btnCopyJson" type="button" class="px-3.5 py-2 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-medium cursor-pointer">複製 JSON</button>
-          <button id="btnApplyJson" type="button" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium cursor-pointer">套用匯入</button>
+      <div class="space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed">
+        <div>
+          <h4 class="font-bold text-slate-900 text-sm mb-1">Ver5</h4>
+          <ul class="list-disc pl-5 space-y-0.5">
+            <li>網頁環境從Google協作平台移植至GitHub</li>
+            <li>新增Google帳號登入功能</li>
+            <li>新增航班收藏列表(需登入Google帳號以保存紀錄)</li>
+            <li>移除匯入/匯出JSON功能</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-900 text-sm mb-1">Ver4.2</h4>
+          <ul class="list-disc pl-5 space-y-0.5">
+            <li>新增追蹤用量上限警語</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-900 text-sm mb-1">Ver4.1</h4>
+          <ul class="list-disc pl-5 space-y-0.5">
+            <li>資料讀取修正</li>
+            <li>票價規定與選位政策資料不全問題修正</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-900 text-sm mb-1">Ver4</h4>
+          <ul class="list-disc pl-5 space-y-0.5">
+            <li>選位費試算更改至航班資訊位置</li>
+            <li>修正近30日走勢紀錄無法正常顯示</li>
+            <li>新增近24小時與每日每小時價格走勢</li>
+            <li>新增票價資訊資料來源</li>
+            <li>票價追蹤頻率更改為每小時一次</li>
+            <li>移除追縱錯誤之票價資料</li>
+            <li>最近30日價格走勢表更改為可選擇顯示4人或單人</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-900 text-sm mb-1">Ver3</h4>
+          <ul class="list-disc pl-5 space-y-0.5">
+            <li>新增購票網站超連結</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-900 text-sm mb-1">Ver2</h4>
+          <ul class="list-disc pl-5 space-y-0.5">
+            <li>新增廉航類組與比較功能</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-900 text-sm mb-1">Ver1</h4>
+          <ul class="list-disc pl-5 space-y-0.5">
+            <li>上線</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -1049,6 +1133,7 @@
       compareMode: 'all3',
       refundFilter: 'all',
       favOnly: false,
+      sortMode: 'price',
       searchQuery: '',
       priceMode: 'total',
       budgetMode: 'total',
@@ -1289,6 +1374,93 @@
       document.getElementById('tripRetEnd').value = String(state.retEndHour);
     }
 
+
+    function parseDepMinutes(timeStr) {
+      const m = String(timeStr || '').match(/(\d{1,2}):(\d{2})/);
+      if (!m) return 0;
+      return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
+    }
+
+    function getSortTimeMidpoints() {
+      let outMid = 480; // 08:00
+      let retMid = 1080; // 18:00
+      if (typeof state.outboundStartHour === 'number' && typeof state.outboundEndHour === 'number') {
+        outMid = ((state.outboundStartHour + state.outboundEndHour) / 2) * 60;
+      }
+      if (typeof state.returnStartHour === 'number' && typeof state.returnEndHour === 'number') {
+        retMid = ((state.returnStartHour + state.returnEndHour) / 2) * 60;
+      }
+      return { outMid, retMid };
+    }
+
+    function compareFlights(a, b) {
+      if ((state.sortMode || 'price') !== 'time') {
+        return getEffectiveTotal(a) - getEffectiveTotal(b);
+      }
+      const { outMid, retMid } = getSortTimeMidpoints();
+      const outA = parseDepMinutes(a.outbound && a.outbound.time);
+      const retA = parseDepMinutes(a.returnLeg && a.returnLeg.time);
+      const outB = parseDepMinutes(b.outbound && b.outbound.time);
+      const retB = parseDepMinutes(b.returnLeg && b.returnLeg.time);
+
+      const getBucket = (outM, retM) => {
+        const outEarly = outM < outMid;
+        const retEarly = retM < retMid;
+        if (outEarly && !retEarly) return 1; // 去早、回晚最優先
+        if (outEarly && retEarly) return 2;  // 去早、回早第二順位
+        if (!outEarly && !retEarly) return 3; // 去晚、回晚第三順位
+        return 4;                             // 去晚、回早第四順位
+      };
+
+      const bucketA = getBucket(outA, retA);
+      const bucketB = getBucket(outB, retB);
+      if (bucketA !== bucketB) return bucketA - bucketB;
+
+      if (bucketA === 1) {
+        if (outA !== outB) return outA - outB;
+        if (retA !== retB) return retB - retA;
+      } else if (bucketA === 2) {
+        if (outA !== outB) return outA - outB;
+        if (retA !== retB) return retA - retB;
+      } else if (bucketA === 3) {
+        if (outA !== outB) return outB - outA;
+        if (retA !== retB) return retB - retA;
+      } else {
+        if (outA !== outB) return outB - outA;
+        if (retA !== retB) return retA - retB;
+      }
+      return getEffectiveTotal(a) - getEffectiveTotal(b);
+    }
+
+    function getFavoriteFlights() {
+      const q = state.searchQuery.trim().toLowerCase();
+      return state.flights
+        .filter(item => state.favorites.includes(item.id))
+        .filter(item => {
+          if (state.refundFilter === 'refundable') {
+            return item.refundType === 'refundable' || item.refundType === 'conditional';
+          }
+          if (state.refundFilter === 'nonrefundable') {
+            return item.refundType === 'nonrefundable' || item.refundType === 'conditional';
+          }
+          return true;
+        })
+        .filter(item => {
+          if (!q) return true;
+          const haystack = [
+            item.outbound.airline,
+            item.outbound.flightNo,
+            item.returnLeg.airline,
+            item.returnLeg.flightNo,
+            item.refundLabel,
+            item.baggagePolicy,
+            item.seatPolicy
+          ].join(' ').toLowerCase();
+          return haystack.includes(q);
+        })
+        .sort(compareFlights);
+    }
+
     function filterFlights(category) {
       const q = state.searchQuery.trim().toLowerCase();
       const outMinBound = state.outStartHour * 60;
@@ -1327,7 +1499,7 @@
           ].join(' ').toLowerCase();
           return haystack.includes(q);
         })
-        .sort((a, b) => getEffectiveTotal(a) - getEffectiveTotal(b))
+        .sort(compareFlights)
         .slice(0, 5);
     }
 
@@ -1468,8 +1640,14 @@
       const badge = document.getElementById(badgeId);
       badge.textContent = '顯示 ' + items.length + ' 筆';
 
+      if (tbodyId === 'favTableBody') {
+        badge.textContent = '已收藏 ' + items.length + ' 筆';
+      }
       if (items.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="8" class="py-10 text-center text-sm text-slate-400">沒有符合目前篩選條件的航班組合，請放寬退票條件或清除搜尋關鍵字。</td></tr>';
+        const emptyText = tbodyId === 'favTableBody'
+          ? '尚未收藏任何航班組合，點擊任一航班左側的 ★ 星號即可加入收藏。'
+          : '沒有符合目前篩選條件的航班組合，請放寬退票條件或清除搜尋關鍵字。';
+        tbody.innerHTML = '<tr><td colspan="8" class="py-8 text-center text-sm text-slate-400">' + emptyText + '</td></tr>';
         return;
       }
 
@@ -1657,7 +1835,7 @@
           ...(activeCats.includes('lcc_lcc') ? (lcc2Items || []) : []),
           ...(activeCats.includes('lcc_fsc') ? lccItems : []),
           ...(activeCats.includes('fsc_fsc') ? fscItems : [])
-        ].sort((a, b) => getEffectiveTotal(a) - getEffectiveTotal(b));
+        ].sort(compareFlights);
         const labels = combined.map(item =>
           (item.category === 'lcc_lcc' ? '[全廉] ' : (item.category === 'lcc_fsc' ? '[廉+般] ' : '[全般] ')) +
           item.outbound.airline + item.outbound.flightNo + ' + ' + item.returnLeg.airline + item.returnLeg.flightNo
@@ -2729,6 +2907,8 @@
       updateTripUI();
       updateBudgetUI();
       updateKPIs(lccItems, fscItems, lcc2Items);
+      const favItems = getFavoriteFlights();
+      renderTable('favTableBody', 'favTableBadge', favItems);
       renderTable('lccTableBody', 'lccTableBadge', lccItems);
       renderTable('fscTableBody', 'fscTableBadge', fscItems);
       renderTable('lcc2TableBody', 'lcc2TableBadge', lcc2Items);
@@ -2814,6 +2994,12 @@
 
       document.querySelectorAll('.refund-btn').forEach(btn => {
         const active = btn.dataset.refundFilter === state.refundFilter;
+        btn.classList.toggle('tab-active', active);
+        btn.classList.toggle('tab-inactive', !active);
+      });
+
+      document.querySelectorAll('.sort-mode-btn').forEach(btn => {
+        const active = btn.dataset.sortMode === (state.sortMode || 'price');
         btn.classList.toggle('tab-active', active);
         btn.classList.toggle('tab-inactive', !active);
       });
@@ -3299,73 +3485,20 @@
           showToast('已刪除該筆快照');
         });
       });
-
-
-      // Data Import/Export Modal
-      document.getElementById('btnOpenDataModal').addEventListener('click', () => {
-        document.getElementById('jsonError').classList.add('hidden');
-        document.getElementById('jsonTextarea').value = JSON.stringify({
-          lastUpdated: state.lastUpdated,
-          targetBudget: state.targetBudget,
-          flights: state.flights,
-          history: state.history
-        }, null, 2);
-        openModal('dataModal');
-      });
-
-      document.getElementById('btnCopyJson').addEventListener('click', () => {
-        const text = document.getElementById('jsonTextarea').value;
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(text).then(() => showToast('已複製 JSON 到剪貼簿')).catch(() => fallbackCopy(text));
-        } else {
-          fallbackCopy(text);
-        }
-      });
-
-      document.getElementById('btnApplyJson').addEventListener('click', () => {
-        const errEl = document.getElementById('jsonError');
-        try {
-          const parsed = JSON.parse(document.getElementById('jsonTextarea').value);
-          if (!Array.isArray(parsed.flights) || parsed.flights.length === 0) {
-            throw new Error('JSON 必須包含有效的 flights 陣列');
-          }
-          state.flights = parsed.flights;
-          if (Array.isArray(parsed.history) && parsed.history.length > 0) state.history = parsed.history;
-          if (typeof parsed.targetBudget === 'number' && parsed.targetBudget > 0) {
-            state.targetBudget = parsed.targetBudget;
-            document.getElementById('budgetInput').value = state.budgetMode === 'perPerson' ? Math.round(state.targetBudget / getPaxCount()) : state.targetBudget;
-          }
-          if (typeof parsed.lastUpdated === 'string') state.lastUpdated = parsed.lastUpdated;
+      document.querySelectorAll('.sort-mode-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.sortMode = btn.dataset.sortMode || 'price';
           savePersistedState();
-          errEl.classList.add('hidden');
-          populateTrendComboSelects();
-      populateHourlyRangeSelect();
-          closeModal('dataModal');
           renderAll();
-          showToast('已成功匯入並更新看板資料');
-        } catch (err) {
-          errEl.textContent = '匯入失敗：' + err.message;
-          errEl.classList.remove('hidden');
-        }
+        });
       });
 
-      document.getElementById('btnResetDefault').addEventListener('click', () => {
-        state.flights = JSON.parse(JSON.stringify(DEFAULT_FLIGHTS));
-        state.history = JSON.parse(JSON.stringify(DEFAULT_HISTORY));
-        state.favorites = [];
-        state.budgetMode = 'total';
-        state.targetBudget = 65000;
-        state.comboSeatFees = {};
-        state.lastUpdated = '2026/11/25';
-        document.getElementById('budgetInput').value = 65000;
-        savePersistedState();
-        state.trendComboId = 'summary';
-        populateTrendComboSelects();
-      populateHourlyRangeSelect();
-        closeModal('dataModal');
-        renderAll();
-        showToast('已重設為 2026/11/25 預設基準資料');
-      });
+      const btnVer = document.getElementById('btnVersionInfo');
+      if (btnVer) {
+        btnVer.addEventListener('click', () => openModal('versionModal'));
+      }
+
+
 
       // Modal close buttons & backdrop clicks
       document.querySelectorAll('[data-close-modal]').forEach(btn => {
@@ -3394,23 +3527,11 @@
       });
 
       document.getElementById('btnSyncSheet').addEventListener('click', () => syncFromGoogleSheet(true));
-      ['detailModal', 'dataModal', 'policyModal'].forEach(modalId => {
+      ['detailModal', 'versionModal', 'policyModal'].forEach(modalId => {
         document.getElementById(modalId).addEventListener('click', (e) => {
           if (e.target.id === modalId) closeModal(modalId);
         });
       });
-    }
-
-    function fallbackCopy(text) {
-      const ta = document.getElementById('jsonTextarea');
-      ta.focus();
-      ta.select();
-      try {
-        document.execCommand('copy');
-        showToast('已複製 JSON 到剪貼簿');
-      } catch (e) {
-        showToast('請手動全選複製文字框內容');
-      }
     }
 
 
@@ -3702,8 +3823,8 @@
       function mountPwaBtn() {
         var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
         if (isStandalone) return;
-        var btnOpenData = document.getElementById('btnOpenDataModal');
-        var container = (btnOpenData && btnOpenData.parentNode) || document.querySelector('header .flex');
+        var authBox = document.getElementById('authHeaderBox');
+        var container = (authBox && authBox.parentNode) || document.querySelector('header .flex');
         if (container && !document.getElementById('pwaInstallBtn')) {
           var btn = document.createElement('button');
           btn.id = 'pwaInstallBtn';
