@@ -68,7 +68,7 @@
             <span class="inline-flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5 text-indigo-400"></i><span id="headerOutText">去程 2027/06/08 (05:00–10:00)</span></span>
             <span class="inline-flex items-center gap-1"><i data-lucide="calendar-check" class="w-3.5 h-3.5 text-amber-400"></i><span id="headerRetText">回程 2027/06/12 (15:00–21:00)</span></span>
             <span class="inline-flex items-center gap-1"><i data-lucide="luggage" class="w-3.5 h-3.5 text-sky-400"></i>每人至少含 1 件託運行李</span>
-            <span class="inline-flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5 text-emerald-400"></i>追蹤頻率：每小時（<span id="nextHourlySlotLabel">計算中</span>）<span class="text-amber-300 font-medium">※可能因達到AI用量上限而尚未更新</span></span>
+            <span class="inline-flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5 text-emerald-400"></i>追蹤頻率：每日一次（<span id="nextHourlySlotLabel">08:00 單程・09:00/14:00/19:00 來回分三批</span>）<span class="text-amber-300 font-medium">※可能因達到AI用量上限而尚未更新</span></span>
           </div>
         </div>
         <div class="flex flex-wrap items-center gap-2 shrink-0">
@@ -136,11 +136,11 @@
         </div>
         <div class="bg-slate-50 rounded-xl px-3 py-2 border border-slate-200/70">
           <label for="tripDepartDate" class="block text-[11px] font-semibold text-slate-500 mb-1">去程日期（TPE → NRT）</label>
-          <input id="tripDepartDate" type="date" value="2027-06-08" class="w-full px-2.5 py-1.5 text-sm font-semibold rounded-lg border border-slate-300 bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/30">
+          <input id="tripDepartDate" type="date" value="2027-06-08" min="2027-06-01" max="2027-06-30" class="w-full px-2.5 py-1.5 text-sm font-semibold rounded-lg border border-slate-300 bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/30">
         </div>
         <div class="bg-slate-50 rounded-xl px-3 py-2 border border-slate-200/70">
           <label for="tripReturnDate" class="block text-[11px] font-semibold text-slate-500 mb-1">回程日期（NRT → TPE）</label>
-          <input id="tripReturnDate" type="date" value="2027-06-12" class="w-full px-2.5 py-1.5 text-sm font-semibold rounded-lg border border-slate-300 bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/30">
+          <input id="tripReturnDate" type="date" value="2027-06-12" min="2027-06-01" max="2027-06-30" class="w-full px-2.5 py-1.5 text-sm font-semibold rounded-lg border border-slate-300 bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/30">
         </div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
@@ -207,7 +207,7 @@
           <i data-lucide="filter" class="w-4 h-4 text-emerald-500"></i>
         </div>
         <div id="kpiCount" class="mt-2.5 text-2xl font-bold text-slate-900 tabular-nums">—</div>
-        <div id="kpiDateSub" class="mt-1 text-xs text-slate-500">最新基準：2026/11/25</div>
+        <div id="kpiDateSub" class="mt-1 text-xs text-slate-500">最新基準：2026/11/27</div>
       </div>
     </section>
 
@@ -295,11 +295,9 @@
           <div class="inline-flex flex-wrap rounded-xl border border-slate-200 p-0.5 bg-slate-50" role="group" aria-label="圖表切換">
             <button type="button" data-chart-tab="compare" class="chart-tab-btn tab-active px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">組合價位比較</button>
             <button type="button" data-chart-tab="history" class="chart-tab-btn tab-inactive px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">近 30 日走勢紀錄</button>
-            <button type="button" data-chart-tab="hourly" class="chart-tab-btn tab-inactive px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">每日每小時走勢紀錄</button>
           </div>
           <div id="chartSubControls" class="hidden flex-wrap items-center gap-2">
             <select id="chartComboSelect" aria-label="選擇走勢圖顯示之機票組合" class="px-2.5 py-1.5 text-xs font-medium rounded-xl border border-indigo-200 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 max-w-[240px]"></select>
-            <select id="hourlyRangeSelect" aria-label="選擇每小時走勢日期範圍" class="hidden px-2.5 py-1.5 text-xs font-medium rounded-xl border border-sky-200 bg-sky-50/70 text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500/30"></select>
           </div>
         </div>
       </div>
@@ -310,7 +308,7 @@
       <div id="historyListContainer" class="hidden mt-4 pt-4 border-t border-slate-100">
         <div class="flex items-center justify-between mb-2">
           <span class="text-xs font-semibold text-slate-600">已記錄的查價快照</span>
-          <span class="text-[11px] text-slate-400">資料自動同步自 Google 試算表「歷史走勢」分頁</span>
+          <span class="text-[11px] text-slate-400">資料同步自新建立之 Google 試算表</span>
         </div>
         <div id="historyList" class="space-y-2 max-h-44 overflow-y-auto pr-1"></div>
       </div>
@@ -381,16 +379,23 @@
     </section>
 
     <!-- Table 2: Both Outbound & Return FSC -->
-    <section id="tableSectionFsc" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden" aria-label="去回程皆一般航空前五名">
-      <div class="px-4 sm:px-5 py-4 border-b border-slate-200 bg-gradient-to-r from-indigo-50/80 to-white flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+    <section id="tableSectionFsc" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden" aria-label="去回程皆一般航空">
+      <div class="px-4 sm:px-5 py-4 border-b border-slate-200 bg-gradient-to-r from-indigo-50/80 to-white flex flex-col lg:flex-row lg:items-center justify-between gap-3">
         <div class="flex items-center gap-2.5">
           <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 font-bold text-xs">二</span>
           <div>
-            <h2 class="text-base font-bold text-slate-900">去回程皆一般航空（最便宜前 5 名）</h2>
-            <p class="text-xs text-slate-500">包含同家航空來回與異家航空分開單程；均含每人至少 1 件託運行李（23kg）</p>
+            <h2 id="fscSectionTitle" class="text-base font-bold text-slate-900">去回程不同航空公司（最便宜前 5 名）</h2>
+            <p id="fscSectionSubtitle" class="text-xs text-slate-500">嚴格時段單程組合（去程 05:00–10:00 ＋ 回程 15:00–21:00）；均含每人至少 1 件託運行李（23kg）</p>
           </div>
         </div>
-        <span id="fscTableBadge" class="text-xs font-medium px-2.5 py-1 rounded-full bg-indigo-100 text-indigo-800 self-start sm:self-center">顯示 5 筆</span>
+        <div class="flex flex-wrap items-center gap-2 self-start lg:self-center">
+          <div class="inline-flex rounded-xl bg-white/90 border border-indigo-200 p-0.5 shadow-2xs" role="tablist" aria-label="一般航空顯示模式">
+            <button type="button" data-fsc-tab="diff" class="fsc-tab-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition cursor-pointer bg-indigo-600 text-white">去回程不同航空公司</button>
+            <button type="button" data-fsc-tab="same" class="fsc-tab-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition cursor-pointer text-slate-600 hover:text-slate-900">去回程相同航空公司</button>
+          </div>
+          <select id="fscSameAirlineSelect" aria-label="選擇航空公司" class="hidden text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-indigo-200 bg-white text-indigo-900 cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-400"></select>
+          <span id="fscTableBadge" class="text-xs font-medium px-2.5 py-1 rounded-full bg-indigo-100 text-indigo-800">顯示 5 筆</span>
+        </div>
       </div>
       <div class="overflow-x-auto table-scroll">
         <table class="w-full text-left border-collapse min-w-[860px]">
@@ -408,6 +413,9 @@
           </thead>
           <tbody id="fscTableBody" class="divide-y divide-slate-100 text-sm"></tbody>
         </table>
+      </div>
+      <div id="fscSameWarningFooter" class="hidden px-4 sm:px-5 py-3 border-t border-amber-200 bg-amber-50/90 text-xs text-amber-800 leading-relaxed">
+        (因追蹤系統限制，來回程為相同一般航空時，顯示價格可能會比實際購買價格高，準確資訊請以Skyscanner或航空公司官網資訊為準)
       </div>
     </section>
 
@@ -451,7 +459,7 @@
           </span>
           <div>
             <h2 id="trend30Title" class="text-base font-bold text-slate-900">單人最近 30 日價格走勢表</h2>
-            <p id="trend30Sub" class="text-xs text-slate-500">顯示最近 30 日內已記錄之每日查價快照與漲跌幅度（隨每日 10:00 / 15:00 更新累積）</p>
+            <p id="trend30Sub" class="text-xs text-slate-500">顯示最近 30 日內已記錄之每日查價快照與漲跌幅度（隨每日排程更新累積）</p>
           </div>
         </div>
         <div class="flex flex-wrap items-center gap-2 self-start sm:self-center">
@@ -489,7 +497,7 @@
     </section>
 
     <footer class="text-xs text-slate-400 text-center pb-6 space-y-2">
-      <p>資料基準日：2026 年 11 月 25 日（票價與班號依當日查價與定期班表整理，實際開票金額與 2027 夏季班表請以各航空公司官網為準）。</p>
+      <p>資料基準日：2026 年 11 月 27 日（票價與班號依當日查價與定期班表整理，實際開票金額與 2027 夏季班表請以各航空公司官網為準）。</p>
       <p class="pt-3">
         <button id="btnVersionInfo" type="button" class="text-indigo-500 hover:text-indigo-600 hover:underline font-medium cursor-pointer">網頁版本資訊</button>
       </p>
@@ -520,6 +528,24 @@
         </button>
       </div>
       <div class="space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed">
+        <div>
+          <h4 class="font-bold text-slate-900 text-sm mb-1">Ver7</h4>
+          <ul class="list-disc pl-5 space-y-0.5">
+            <li>全面修改航班資訊更新邏輯、頻率更改為每日追蹤一次(其中去回同一般航空之航班改採每日追蹤一次、分三批次進行)</li>
+            <li>移除每小時歷史走勢功能</li>
+            <li>定義航班追蹤範圍為2027/06整月</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-900 text-sm mb-1">Ver6</h4>
+          <ul class="list-disc pl-5 space-y-0.5">
+            <li>修正顯示票價與航班實際價格不符之情形</li>
+            <li>因應當來回程為相同的一般航空時，價格顯示可能不準確之情形，在來回皆為一般航空的區塊更改為可顯示兩種頁面，一頁顯示去回不同一般航空與一頁顯示去回相同一般航空，並且在相同一般航空時一頁顯示一家航空公司</li>
+            <li>新增當來回程為同家一般航空時，顯示價格可能不準確之警語</li>
+            <li>因應調整，來回程相同一般航空之顯示與追蹤資料數改為不限</li>
+            <li>修正與更改航班追蹤顯示邏輯</li>
+          </ul>
+        </div>
         <div>
           <h4 class="font-bold text-slate-900 text-sm mb-1">Ver5.1</h4>
           <ul class="list-disc pl-5 space-y-0.5">
@@ -622,7 +648,7 @@
 
   <script>
     const STORAGE_KEY = 'tpe_nrt_2027_flight_tracker_v1';
-    const GOOGLE_SHEET_ID = '1UrY-AFhKpV3SZmqnZNqqmUj-okUJOA17HYzT3YRnDKM';
+    const GOOGLE_SHEET_ID = '1RYEg2_WzI0iaWAbztaA3jVWcSeDivB3hJReR_L5pJFY';
 
     const DEFAULT_FLIGHTS = [
       // Category A: Outbound LCC + Return FSC
@@ -798,7 +824,7 @@
         returnLeg: {
           airline: '中華航空',
           flightNo: 'CI109',
-          time: '20:00 起飛 (或 CI105 17:55)',
+          time: '20:00–22:45',
           url: 'https://www.travemon.jp/special/airlines_china-airline/',
           fareNote: '同家來回（開票時選擇 15:00–21:00 回程班次）'
         },
@@ -1094,12 +1120,192 @@
         seatPolicy: 'Basic 預選座位需另付費（NT$220 起／人・段）；Value／Flex 方案含標準選位。',
         seatUrl: 'https://cdn.flyscoot.com/prod/docs/default-source/fee-chart/scoot_fees_chart_tw.pdf'
       }
+      ,{
+        id: 'fsc-same-1', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／視艙等可退',
+        outbound: { airline: '中華航空', flightNo: 'CI100', time: '08:50–13:15', url: 'https://www.travemon.jp/special/airlines_china-airline/', fareNote: '去程 05:00–10:00 直飛經濟艙' },
+        returnLeg: { airline: '中華航空', flightNo: 'CI107', time: '09:35–12:15', url: 'https://www.travemon.jp/special/airlines_china-airline/', fareNote: '同航空來回最低組合對應回程班次' },
+        baseTotal: 65112, highTotal: null, priceNote: '同航空來回（去程嚴格／回程任意）', paidSeatLegs: 1,
+        baggagePolicy: '華航短程「特惠」以上含 1 件 23kg 託運，「基本」以上可付費改退。', policyUrl: 'https://www.china-airlines.com/tw/zh/itinerary-booking/ticket-information/fare-family', policySource: '中華航空票價產品',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '華航「特惠／基本」選位付費、「標準」以上免費選位。', seatUrl: 'https://www.china-airlines.com/tw/zh/itinerary-booking/add-ons/seat-selection'
+      },
+      {
+        id: 'fsc-same-2', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／視艙等可退',
+        outbound: { airline: '長榮航空', flightNo: 'BR184', time: '07:55–12:25', url: 'https://www.flightstats.com/v2/flight-tracker/route/TPE/NRT', fareNote: '去程 05:00–10:00 直飛經濟艙' },
+        returnLeg: { airline: '長榮航空', flightNo: 'BR183', time: '13:25–16:05', url: 'https://2lnr.com/routes/nrt-tpe', fareNote: '同航空來回最低組合對應回程班次' },
+        baseTotal: 65628, highTotal: null, priceNote: '同航空來回（去程嚴格／回程任意）', paidSeatLegs: 1,
+        baggagePolicy: '長榮含 1 件 23kg 託運，「基本」以上可付費改退、「輕省」不可退。', policyUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/', policySource: '長榮航空票價產品',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '長榮「輕省／基本」選位付費（起飛前 48 小時免費）、「經典」以上免費。', seatUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/'
+      },
+      {
+        id: 'fsc-same-3', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／視艙等可退',
+        outbound: { airline: '長榮航空', flightNo: 'BR198', time: '09:00–13:25', url: 'https://www.flightstats.com/v2/flight-tracker/route/TPE/NRT', fareNote: '去程 05:00–10:00 直飛經濟艙' },
+        returnLeg: { airline: '長榮航空', flightNo: 'BR183', time: '13:25–16:05', url: 'https://2lnr.com/routes/nrt-tpe', fareNote: '同航空來回最低組合對應回程班次' },
+        baseTotal: 65628, highTotal: null, priceNote: '同航空來回（去程嚴格／回程任意）', paidSeatLegs: 1,
+        baggagePolicy: '長榮含 1 件 23kg 託運，「基本」以上可付費改退、「輕省」不可退。', policyUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/', policySource: '長榮航空票價產品',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '長榮「輕省／基本」選位付費（起飛前 48 小時免費）、「經典」以上免費。', seatUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/'
+      },
+      {
+        id: 'fsc-same-4', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／視艙等可退',
+        outbound: { airline: '星宇航空', flightNo: 'JX800', time: '08:30–12:55', url: 'https://tw.trip.com/flights/status-jx800/', fareNote: '去程 05:00–10:00 直飛經濟艙' },
+        returnLeg: { airline: '星宇航空', flightNo: 'JX801', time: '14:10–16:50', url: 'https://zh-tw.flightaware.com/live/flight/SJX801', fareNote: '同航空來回最低組合對應回程班次' },
+        baseTotal: 66384, highTotal: null, priceNote: '同航空來回（去程嚴格／回程任意）', paidSeatLegs: 1,
+        baggagePolicy: '星宇限量／超值含 1 件 23kg 託運、基本含 2 件並依票種收費改退。', policyUrl: 'https://www.starlux-airlines.com/zh-TW/booking/product/fare-product', policySource: '星宇航空票價產品',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '星宇依票價產品提供付費或免費預選座位。', seatUrl: 'https://www.starlux-airlines.com/zh-TW/booking/other-optional-services/seat-selection-charge'
+      },
+      {
+        id: 'fsc-same-5', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／視艙等可退',
+        outbound: { airline: '長榮航空', flightNo: 'BR184', time: '07:55–12:25', url: 'https://www.flightstats.com/v2/flight-tracker/route/TPE/NRT', fareNote: '去程 05:00–10:00 直飛經濟艙' },
+        returnLeg: { airline: '長榮航空', flightNo: 'BR195', time: '20:40–23:20', url: 'https://2lnr.com/routes/nrt-tpe', fareNote: '指定晚班回程單程組合參考' },
+        baseTotal: 82469, highTotal: null, priceNote: '同航空指定晚班回程參考', paidSeatLegs: 1,
+        baggagePolicy: '長榮含 1 件 23kg 託運，「基本」以上可付費改退、「輕省」不可退。', policyUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/', policySource: '長榮航空票價產品',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '長榮「輕省／基本」選位付費（起飛前 48 小時免費）、「經典」以上免費。', seatUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/'
+      }
+      ,{
+        id: 'fsc-same-1', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／視艙等可退',
+        outbound: { airline: '中華航空', flightNo: 'CI100', time: '08:50–13:15', url: 'https://www.travemon.jp/special/airlines_china-airline/', fareNote: '去程 05:00–10:00 直飛經濟艙' },
+        returnLeg: { airline: '中華航空', flightNo: 'CI107', time: '09:35–12:15', url: 'https://www.travemon.jp/special/airlines_china-airline/', fareNote: '當日全時段回程單程組合' },
+        baseTotal: 72042, highTotal: null, priceNote: '同航空單程組合（早去早回）', paidSeatLegs: 1,
+        baggagePolicy: '華航短程「特惠」以上含 1 件 23kg 託運，「基本」以上可付費改退。', policyUrl: 'https://www.china-airlines.com/tw/zh/itinerary-booking/ticket-information/fare-family', policySource: '中華航空票價產品',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '華航「特惠／基本」選位付費、「標準」以上免費選位。', seatUrl: 'https://www.china-airlines.com/tw/zh/itinerary-booking/add-ons/seat-selection'
+      },
+      {
+        id: 'fsc-same-2', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／視艙等可退',
+        outbound: { airline: '中華航空', flightNo: 'CI100', time: '08:50–13:15', url: 'https://www.travemon.jp/special/airlines_china-airline/', fareNote: '去程 05:00–10:00 直飛經濟艙' },
+        returnLeg: { airline: '中華航空', flightNo: 'CI101', time: '14:30–17:15', url: 'https://tw.trip.com/flights/status-ci101/', fareNote: '當日全時段回程單程組合' },
+        baseTotal: 74029, highTotal: null, priceNote: '同航空單程組合（早去午回）', paidSeatLegs: 1,
+        baggagePolicy: '華航短程「特惠」以上含 1 件 23kg 託運，「基本」以上可付費改退。', policyUrl: 'https://www.china-airlines.com/tw/zh/itinerary-booking/ticket-information/fare-family', policySource: '中華航空票價產品',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '華航「特惠／基本」選位付費、「標準」以上免費選位。', seatUrl: 'https://www.china-airlines.com/tw/zh/itinerary-booking/add-ons/seat-selection'
+      },
+      {
+        id: 'fsc-same-3', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／視艙等可退',
+        outbound: { airline: '中華航空', flightNo: 'CI100', time: '08:50–13:15', url: 'https://www.travemon.jp/special/airlines_china-airline/', fareNote: '去程 05:00–10:00 直飛經濟艙' },
+        returnLeg: { airline: '中華航空', flightNo: 'CI109', time: '20:00–22:45', url: 'https://www.travemon.jp/special/airlines_china-airline/', fareNote: '當日全時段回程單程組合' },
+        baseTotal: 86436, highTotal: null, priceNote: '同航空單程組合（早去晚回）', paidSeatLegs: 1,
+        baggagePolicy: '華航短程「特惠」以上含 1 件 23kg 託運，「基本」以上可付費改退。', policyUrl: 'https://www.china-airlines.com/tw/zh/itinerary-booking/ticket-information/fare-family', policySource: '中華航空票價產品',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '華航「特惠／基本」選位付費、「標準」以上免費選位。', seatUrl: 'https://www.china-airlines.com/tw/zh/itinerary-booking/add-ons/seat-selection'
+      },
+      {
+        id: 'fsc-same-4', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／視艙等可退',
+        outbound: { airline: '中華航空', flightNo: 'CI100', time: '08:50–13:15', url: 'https://www.travemon.jp/special/airlines_china-airline/', fareNote: '去程 05:00–10:00 直飛經濟艙' },
+        returnLeg: { airline: '中華航空', flightNo: 'CI105', time: '17:55–20:35', url: 'https://www.travemon.jp/special/airlines_china-airline/', fareNote: '當日全時段回程單程組合' },
+        baseTotal: 93471, highTotal: null, priceNote: '同航空單程組合（早去傍晚回）', paidSeatLegs: 1,
+        baggagePolicy: '華航短程「特惠」以上含 1 件 23kg 託運，「基本」以上可付費改退。', policyUrl: 'https://www.china-airlines.com/tw/zh/itinerary-booking/ticket-information/fare-family', policySource: '中華航空票價產品',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '華航「特惠／基本」選位付費、「標準」以上免費選位。', seatUrl: 'https://www.china-airlines.com/tw/zh/itinerary-booking/add-ons/seat-selection'
+      },
+      {
+        id: 'fsc-same-5', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／視艙等可退',
+        outbound: { airline: '長榮航空', flightNo: 'BR184', time: '07:55–12:25', url: 'https://www.flightstats.com/v2/flight-tracker/route/TPE/NRT', fareNote: '去程 05:00–10:00 直飛經濟艙' },
+        returnLeg: { airline: '長榮航空', flightNo: 'BR183', time: '13:25–16:05', url: 'https://2lnr.com/routes/nrt-tpe', fareNote: '當日全時段回程單程組合' },
+        baseTotal: 74034, highTotal: null, priceNote: '同航空單程組合（早去午回）', paidSeatLegs: 1,
+        baggagePolicy: '長榮含 1 件 23kg 託運，「基本」以上可付費改退、「輕省」不可退。', policyUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/', policySource: '長榮航空票價產品',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '長榮「輕省／基本」選位付費（起飛前 48 小時免費）、「經典」以上免費。', seatUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/'
+      },
+      {
+        id: 'fsc-same-6', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／視艙等可退',
+        outbound: { airline: '長榮航空', flightNo: 'BR198', time: '09:00–13:25', url: 'https://www.flightstats.com/v2/flight-tracker/route/TPE/NRT', fareNote: '去程 05:00–10:00 直飛經濟艙' },
+        returnLeg: { airline: '長榮航空', flightNo: 'BR183', time: '13:25–16:05', url: 'https://2lnr.com/routes/nrt-tpe', fareNote: '當日全時段回程單程組合' },
+        baseTotal: 74034, highTotal: null, priceNote: '同航空單程組合（早去午回）', paidSeatLegs: 1,
+        baggagePolicy: '長榮含 1 件 23kg 託運，「基本」以上可付費改退、「輕省」不可退。', policyUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/', policySource: '長榮航空票價產品',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '長榮「輕省／基本」選位付費（起飛前 48 小時免費）、「經典」以上免費。', seatUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/'
+      },
+      {
+        id: 'fsc-same-7', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／視艙等可退',
+        outbound: { airline: '長榮航空', flightNo: 'BR184', time: '07:55–12:25', url: 'https://www.flightstats.com/v2/flight-tracker/route/TPE/NRT', fareNote: '去程 05:00–10:00 直飛經濟艙' },
+        returnLeg: { airline: '長榮航空', flightNo: 'BR197', time: '14:25–17:05', url: 'https://2lnr.com/routes/nrt-tpe', fareNote: '當日全時段回程單程組合' },
+        baseTotal: 82463, highTotal: null, priceNote: '同航空單程組合（早去午回）', paidSeatLegs: 1,
+        baggagePolicy: '長榮含 1 件 23kg 託運，「基本」以上可付費改退、「輕省」不可退。', policyUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/', policySource: '長榮航空票價產品',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '長榮「輕省／基本」選位付費（起飛前 48 小時免費）、「經典」以上免費。', seatUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/'
+      },
+      {
+        id: 'fsc-same-8', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／視艙等可退',
+        outbound: { airline: '長榮航空', flightNo: 'BR198', time: '09:00–13:25', url: 'https://www.flightstats.com/v2/flight-tracker/route/TPE/NRT', fareNote: '去程 05:00–10:00 直飛經濟艙' },
+        returnLeg: { airline: '長榮航空', flightNo: 'BR197', time: '14:25–17:05', url: 'https://2lnr.com/routes/nrt-tpe', fareNote: '當日全時段回程單程組合' },
+        baseTotal: 82463, highTotal: null, priceNote: '同航空單程組合（早去午回）', paidSeatLegs: 1,
+        baggagePolicy: '長榮含 1 件 23kg 託運，「基本」以上可付費改退、「輕省」不可退。', policyUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/', policySource: '長榮航空票價產品',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '長榮「輕省／基本」選位付費（起飛前 48 小時免費）、「經典」以上免費。', seatUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/'
+      },
+      {
+        id: 'fsc-same-9', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／視艙等可退',
+        outbound: { airline: '長榮航空', flightNo: 'BR184', time: '07:55–12:25', url: 'https://www.flightstats.com/v2/flight-tracker/route/TPE/NRT', fareNote: '去程 05:00–10:00 直飛經濟艙' },
+        returnLeg: { airline: '長榮航空', flightNo: 'BR195', time: '20:40–23:20', url: 'https://2lnr.com/routes/nrt-tpe', fareNote: '當日全時段回程單程組合' },
+        baseTotal: 82469, highTotal: null, priceNote: '同航空單程組合（早去晚回）', paidSeatLegs: 1,
+        baggagePolicy: '長榮含 1 件 23kg 託運，「基本」以上可付費改退、「輕省」不可退。', policyUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/', policySource: '長榮航空票價產品',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '長榮「輕省／基本」選位付費（起飛前 48 小時免費）、「經典」以上免費。', seatUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/'
+      },
+      {
+        id: 'fsc-same-10', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／視艙等可退',
+        outbound: { airline: '長榮航空', flightNo: 'BR198', time: '09:00–13:25', url: 'https://www.flightstats.com/v2/flight-tracker/route/TPE/NRT', fareNote: '去程 05:00–10:00 直飛經濟艙' },
+        returnLeg: { airline: '長榮航空', flightNo: 'BR195', time: '20:40–23:20', url: 'https://2lnr.com/routes/nrt-tpe', fareNote: '當日全時段回程單程組合' },
+        baseTotal: 82469, highTotal: null, priceNote: '同航空單程組合（早去晚回）', paidSeatLegs: 1,
+        baggagePolicy: '長榮含 1 件 23kg 託運，「基本」以上可付費改退、「輕省」不可退。', policyUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/', policySource: '長榮航空票價產品',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '長榮「輕省／基本」選位付費（起飛前 48 小時免費）、「經典」以上免費。', seatUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/'
+      },
+      {
+        id: 'fsc-same-11', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／可退票',
+        outbound: { airline: '星宇航空', flightNo: 'JX800', time: '08:30–12:55', url: 'https://tw.trip.com/flights/status-jx800/', fareNote: '去程 05:00–10:00 直飛經濟艙' },
+        returnLeg: { airline: '星宇航空', flightNo: 'JX801', time: '14:10–16:50', url: 'https://zh-tw.flightaware.com/live/flight/SJX801', fareNote: '當日全時段回程單程組合' },
+        baseTotal: 80070, highTotal: null, priceNote: '同航空單程組合（早去午回）', paidSeatLegs: 1,
+        baggagePolicy: '星宇限量／超值含 1 件 23kg 託運、基本含 2 件並依票種收費改退。', policyUrl: 'https://www.starlux-airlines.com/zh-TW/booking/product/fare-product', policySource: '星宇航空票價產品',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '星宇依票價產品提供付費或免費預選座位。', seatUrl: 'https://www.starlux-airlines.com/zh-TW/booking/other-optional-services/seat-selection-charge'
+      },
+      {
+        id: 'fsc-same-12', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／可退票',
+        outbound: { airline: '星宇航空', flightNo: 'JX800', time: '08:30–12:55', url: 'https://tw.trip.com/flights/status-jx800/', fareNote: '去程 05:00–10:00 直飛經濟艙' },
+        returnLeg: { airline: '星宇航空', flightNo: 'JX803', time: '16:20–19:00', url: 'https://sg.trip.com/flights/status-jx803/', fareNote: '當日全時段回程單程組合' },
+        baseTotal: 84449, highTotal: null, priceNote: '同航空單程組合（早去傍晚回）', paidSeatLegs: 1,
+        baggagePolicy: '星宇限量／超值含 1 件 23kg 託運、基本含 2 件並依票種收費改退。', policyUrl: 'https://www.starlux-airlines.com/zh-TW/booking/product/fare-product', policySource: '星宇航空票價產品',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '星宇依票價產品提供付費或免費預選座位。', seatUrl: 'https://www.starlux-airlines.com/zh-TW/booking/other-optional-services/seat-selection-charge'
+      },
+      {
+        id: 'fsc-same-13', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／可退票',
+        outbound: { airline: '星宇航空', flightNo: 'JX800', time: '08:30–12:55', url: 'https://tw.trip.com/flights/status-jx800/', fareNote: '去程 05:00–10:00 直飛經濟艙' },
+        returnLeg: { airline: '星宇航空', flightNo: 'JX805', time: '20:40–23:20', url: 'https://zh-tw.flightaware.com/live/flight/SJX805', fareNote: '當日全時段回程單程組合' },
+        baseTotal: 84449, highTotal: null, priceNote: '同航空單程組合（早去晚回）', paidSeatLegs: 1,
+        baggagePolicy: '星宇限量／超值含 1 件 23kg 託運、基本含 2 件並依票種收費改退。', policyUrl: 'https://www.starlux-airlines.com/zh-TW/booking/product/fare-product', policySource: '星宇航空票價產品',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '星宇依票價產品提供付費或免費預選座位。', seatUrl: 'https://www.starlux-airlines.com/zh-TW/booking/other-optional-services/seat-selection-charge'
+      }
+      ,{
+        id: 'fsc-same-35', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／可退票',
+        outbound: { airline: '國泰航空', flightNo: 'CX450', time: '13:00–17:15', url: 'https://zh-tw.flightaware.com/live/flight/CPA450', fareNote: '全時段直營經濟艙' },
+        returnLeg: { airline: '國泰航空', flightNo: 'CX451', time: '15:45–18:25', url: 'https://zh-tw.flightaware.com/live/flight/CPA451', fareNote: '全時段直營經濟艙' },
+        baseTotal: 84040, highTotal: null, priceNote: '同航空單程組合（單人疊加）', paidSeatLegs: 1,
+        baggagePolicy: '國泰「輕便／標準」含 1 件 23kg 託運並支援付費改退。', policyUrl: 'https://www.cathaypacific.com/cx/zh_TW/baggage/checked-baggage.html', policySource: '國泰航空行李規定',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '國泰「輕便」選位付費、「標準」以上免費選標準座位。', seatUrl: 'https://www.cxagents.com/ta/zh_TW/highlights/introducing-our-new-fare-structure.html'
+      },
+      {
+        id: 'fsc-same-36', category: 'fsc_same', refundType: 'refundable', refundLabel: '可改期／可退票',
+        outbound: { airline: '日本航空', flightNo: 'JL802', time: '10:00–14:30', url: 'https://www.jal.co.jp/jp/en/', fareNote: '全時段直營經濟艙' },
+        returnLeg: { airline: '日本航空', flightNo: 'JL809', time: '18:05–20:45', url: 'https://www.jal.co.jp/jp/en/', fareNote: '全時段直營經濟艙' },
+        baseTotal: 184260, highTotal: null, priceNote: '同航空單程組合（單人疊加）', paidSeatLegs: 1,
+        baggagePolicy: '日本航空經濟艙含 2 件 23kg 託運行李，依票價規則支援付費改退。', policyUrl: 'https://www.jal.co.jp/tw/zhtw/inter/baggage/checked/', policySource: '日本航空行李規定',
+        secondaryPolicyUrl: null, secondaryPolicySource: null,
+        seatPolicy: '日本航空依票價艙等提供免費或付費預選座位。', seatUrl: 'https://www.jal.co.jp/tw/zhtw/inter/service/seat/'
+      }
     ];
 
     const DEFAULT_HISTORY = [
       {
         id: 'snap-init',
-        date: '2026-11-25',
+        date: '2026-11-27',
         slot: '初始基準',
         lcc2Min: 46840,
         lccMin: 60556,
@@ -1125,22 +1331,352 @@
       }
     ];
 
+
+    const LEG_POLICIES = {
+      '台灣虎航': {
+        bag: '虎航 tigersmart 含 20kg 託運、可付費改期不可退',
+        seat: '虎航 tigersmart 含免費虎厝邊選位',
+        policyUrl: 'https://www.tigerairtw.com/zh-TW/article/fee-combination',
+        policySource: '台灣虎航票價組合',
+        seatUrl: 'https://www.tigerairtw.com/zh-TW/article/fee-combination',
+        refundType: 'nonrefundable'
+      },
+      '酷航': {
+        bag: '酷航加購 20kg 託運 NT$925/人/段、機票不可退',
+        seat: '酷航預選座位需另付費',
+        policyUrl: 'https://cdn.flyscoot.com/prod/legacy/images/coc/scoot_conditions_of_carriage.pdf',
+        policySource: '酷航運送條款',
+        seatUrl: 'https://cdn.flyscoot.com/prod/docs/default-source/fee-chart/scoot_fees_chart.pdf',
+        refundType: 'nonrefundable'
+      },
+      '中華航空': {
+        bag: '華航「特惠」以上含 1 件 23kg 託運可付費改退',
+        seat: '華航「特惠／基本」選位付費、「標準」以上免費',
+        policyUrl: 'https://www.china-airlines.com/tw/zh/itinerary-booking/ticket-information/fare-family',
+        policySource: '中華航空票價產品',
+        seatUrl: 'https://www.china-airlines.com/tw/zh/itinerary-booking/add-ons/seat-selection',
+        refundType: 'conditional'
+      },
+      '長榮航空': {
+        bag: '長榮含 1 件 23kg，「基本」以上可改退、「輕省」不可退',
+        seat: '長榮「輕省／基本」選位付費（起飛前48小時免費）',
+        policyUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/',
+        policySource: '長榮航空票價產品',
+        seatUrl: 'https://www.evaair.com/zh-tw/plan-and-book/fare-family/introducing-fare-family/',
+        refundType: 'conditional'
+      },
+      '星宇航空': {
+        bag: '星宇限量／超值含 1 件 23kg、基本含 2 件並依票種改退',
+        seat: '星宇依票價產品提供付費或免費預選座位',
+        policyUrl: 'https://www.starlux-airlines.com/zh-TW/booking/product/fare-product',
+        policySource: '星宇航空票價產品',
+        seatUrl: 'https://www.starlux-airlines.com/zh-TW/booking/other-optional-services/seat-selection-charge',
+        refundType: 'refundable'
+      },
+      '國泰航空': {
+        bag: '國泰「輕便／標準」含 1 件 23kg 託運並支援付費改退',
+        seat: '國泰「輕便」付費、「標準」以上免費預選標準座位',
+        policyUrl: 'https://www.cathaypacific.com/cx/zh_TW/baggage/checked-baggage.html',
+        policySource: '國泰航空行李規定',
+        seatUrl: 'https://www.cxagents.com/ta/zh_TW/highlights/introducing-our-new-fare-structure.html',
+        refundType: 'refundable'
+      },
+      '日本航空': {
+        bag: '日本航空經濟艙含 2 件 23kg 託運行李並支援付費改退',
+        seat: '日本航空依票價艙等提供免費或付費預選座位',
+        policyUrl: 'https://www.jal.co.jp/tw/zhtw/inter/baggage/checked/',
+        policySource: '日本航空行李規定',
+        seatUrl: 'https://www.jal.co.jp/tw/zhtw/inter/service/seat/',
+        refundType: 'refundable'
+      }
+    };
+
+    const SINGLE_OUTBOUND_LEGS = [
+      { id: 'o-it200', isLcc: true, airline: '台灣虎航', flightNo: 'IT200', time: '06:35–11:00', price1p: 5099, url: 'https://www.flightstats.com/v2/flight-tracker/route/TPE/NRT', fareNote: '已含虎航 tigersmart 20kg 託運' },
+      { id: 'o-tr866', isLcc: true, airline: '酷航', flightNo: 'TR866', time: '06:45–11:15', price1p: 6658, url: 'https://www.taoyuan-airport.com/flight_depart?k=&time=all', fareNote: '已計入酷航 20kg 預購託運' },
+      { id: 'o-tr870', isLcc: true, airline: '酷航', flightNo: 'TR870', time: '15:30–20:00', price1p: 5793, url: 'https://www.taoyuan-airport.com/flight_depart?k=&time=all', fareNote: '已計入酷航 20kg 預購託運' },
+      { id: 'o-br184', isLcc: false, airline: '長榮航空', flightNo: 'BR184', time: '07:55–12:25', price1p: 10078, url: 'https://www.flightstats.com/v2/flight-tracker/route/TPE/NRT', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'o-jx800', isLcc: false, airline: '星宇航空', flightNo: 'JX800', time: '08:30–12:55', price1p: 9911, url: 'https://tw.trip.com/flights/status-jx800/', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'o-ci100', isLcc: false, airline: '中華航空', flightNo: 'CI100', time: '08:50–13:15', price1p: 9994, url: 'https://www.travemon.jp/special/airlines_china-airline/', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'o-br198', isLcc: false, airline: '長榮航空', flightNo: 'BR198', time: '09:00–13:25', price1p: 10078, url: 'https://www.flightstats.com/v2/flight-tracker/route/TPE/NRT', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'o-jl802', isLcc: false, airline: '日本航空', flightNo: 'JL802', time: '10:00–14:30', price1p: 12635, url: 'https://www.jal.co.jp/jp/en/', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'o-jx802', isLcc: false, airline: '星宇航空', flightNo: 'JX802', time: '10:40–15:05', price1p: 9385, url: 'https://tw.trip.com/flights/status-jx800/', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'o-ci104', isLcc: false, airline: '中華航空', flightNo: 'CI104', time: '12:15–16:35', price1p: 9385, url: 'https://www.travemon.jp/special/airlines_china-airline/', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'o-cx450', isLcc: false, airline: '國泰航空', flightNo: 'CX450', time: '13:00–17:15', price1p: 11053, url: 'https://zh-tw.flightaware.com/live/flight/CPA450', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'o-ci108', isLcc: false, airline: '中華航空', flightNo: 'CI108', time: '14:35–19:00', price1p: 9121, url: 'https://www.travemon.jp/special/airlines_china-airline/', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'o-jx804', isLcc: false, airline: '星宇航空', flightNo: 'JX804', time: '15:00–19:25', price1p: 9121, url: 'https://tw.trip.com/flights/status-jx800/', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'o-br196', isLcc: false, airline: '長榮航空', flightNo: 'BR196', time: '15:20–19:40', price1p: 9268, url: 'https://www.flightstats.com/v2/flight-tracker/route/TPE/NRT', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'o-ci106', isLcc: false, airline: '中華航空', flightNo: 'CI106', time: '16:25–20:50', price1p: 9121, url: 'https://www.travemon.jp/special/airlines_china-airline/', fareNote: '單程直飛經濟艙含託運' }
+    ];
+
+    const SINGLE_RETURN_LEGS = [
+      { id: 'r-tr899', isLcc: true, airline: '酷航', flightNo: 'TR899', time: '12:30–15:05', price1p: 7111, url: 'https://www.taoyuan-airport.com/flight_depart?k=&time=all', fareNote: '已計入酷航 20kg 預購託運' },
+      { id: 'r-it201', isLcc: true, airline: '台灣虎航', flightNo: 'IT201', time: '13:30–16:25', price1p: 7027, url: 'https://www.flightstats.com/v2/flight-tracker/route/TPE/NRT', fareNote: '已含虎航 tigersmart 20kg 託運' },
+      { id: 'r-it203', isLcc: true, airline: '台灣虎航', flightNo: 'IT203', time: '19:30–22:35', price1p: 8122, url: 'https://www.flightstats.com/v2/flight-tracker/route/TPE/NRT', fareNote: '已含虎航 tigersmart 20kg 託運' },
+      { id: 'r-tr871', isLcc: true, airline: '酷航', flightNo: 'TR871', time: '21:15–23:55', price1p: 7938, url: 'https://www.taoyuan-airport.com/flight_depart?k=&time=all', fareNote: '已計入酷航 20kg 預購託運' },
+      { id: 'r-ci107', isLcc: false, airline: '中華航空', flightNo: 'CI107', time: '09:35–12:15', price1p: 8023, url: 'https://www.travemon.jp/special/airlines_china-airline/', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'r-br197', isLcc: false, airline: '長榮航空', flightNo: 'BR183', time: '13:25–16:05', price1p: 8436, url: 'https://2lnr.com/routes/nrt-tpe', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'r-jx801', isLcc: false, airline: '星宇航空', flightNo: 'JX801', time: '14:10–16:50', price1p: 10110, url: 'https://zh-tw.flightaware.com/live/flight/SJX801', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'r-br1425', isLcc: false, airline: '長榮航空', flightNo: 'BR197', time: '14:25–17:05', price1p: 10544, url: 'https://2lnr.com/routes/nrt-tpe', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'r-ci101', isLcc: false, airline: '中華航空', flightNo: 'CI101', time: '14:30–17:15', price1p: 8519, url: 'https://tw.trip.com/flights/status-ci101/', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'r-cx451', isLcc: false, airline: '國泰航空', flightNo: 'CX451', time: '15:45–18:25', price1p: 9953, url: 'https://zh-tw.flightaware.com/live/flight/CPA451', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'r-jx803', isLcc: false, airline: '星宇航空', flightNo: 'JX803', time: '16:20–19:00', price1p: 11206, url: 'https://sg.trip.com/flights/status-jx803/', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'r-ci105', isLcc: false, airline: '中華航空', flightNo: 'CI105', time: '17:55–20:35', price1p: 11619, url: 'https://www.travemon.jp/special/airlines_china-airline/', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'r-jl809', isLcc: false, airline: '日本航空', flightNo: 'JL809', time: '18:05–20:45', price1p: 33430, url: 'https://www.jal.co.jp/jp/en/', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'r-ci109', isLcc: false, airline: '中華航空', flightNo: 'CI109', time: '20:00–22:45', price1p: 11619, url: 'https://www.travemon.jp/special/airlines_china-airline/', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'r-br195', isLcc: false, airline: '長榮航空', flightNo: 'BR195', time: '20:40–23:20', price1p: 10544, url: 'https://2lnr.com/routes/nrt-tpe', fareNote: '單程直飛經濟艙含託運' },
+      { id: 'r-jx805', isLcc: false, airline: '星宇航空', flightNo: 'JX805', time: '20:40–23:20', price1p: 11206, url: 'https://zh-tw.flightaware.com/live/flight/SJX805', fareNote: '單程直飛經濟艙含託運' }
+    ];
+
+    function buildAllCustomCombos(sheetFlights) {
+      const outMap = new Map(SINGLE_OUTBOUND_LEGS.map(l => [l.id, Object.assign({}, l)]));
+      const retMap = new Map(SINGLE_RETURN_LEGS.map(l => [l.id, Object.assign({}, l)]));
+
+      if (Array.isArray(sheetFlights) && sheetFlights.length > 0) {
+        const findLeg = (map, flightNo, time) => {
+          for (const leg of map.values()) {
+            if (leg.flightNo === flightNo || (time && leg.time === time)) return leg;
+          }
+          return null;
+        };
+        sheetFlights.forEach(sf => {
+          const o = findLeg(outMap, sf.outbound.flightNo, sf.outbound.time);
+          const r = findLeg(retMap, sf.returnLeg.flightNo, sf.returnLeg.time);
+          if (o && r) {
+            const sum1p = Math.round(sf.baseTotal / 4);
+            const diff = sum1p - (o.price1p + r.price1p);
+            if (Math.abs(diff) > 0 && Math.abs(diff) < 3000) {
+              r.price1p += diff;
+            }
+          }
+        });
+      }
+
+      const outList = Array.from(outMap.values());
+      const retList = Array.from(retMap.values());
+      const combos = [];
+      let seq = 1;
+
+      outList.forEach(o => {
+        retList.forEach(r => {
+          let category = null;
+          if (o.isLcc && r.isLcc) category = 'lcc_lcc';
+          else if (o.isLcc && !r.isLcc) category = 'lcc_fsc';
+          else if (!o.isLcc && !r.isLcc && o.airline !== r.airline) category = 'fsc_fsc';
+          else if (!o.isLcc && !r.isLcc && o.airline === r.airline) category = 'fsc_same';
+          if (!category) return;
+
+          const pOut = LEG_POLICIES[o.airline] || {};
+          const pRet = LEG_POLICIES[r.airline] || {};
+          const singleTotal = o.price1p + r.price1p;
+
+          let refundType = 'refundable';
+          let refundLabel = '可改期／可退票';
+          if (o.isLcc && r.isLcc) {
+            refundType = 'nonrefundable';
+            refundLabel = '去回皆可改不可退';
+          } else if (o.isLcc && !r.isLcc) {
+            refundType = 'nonrefundable';
+            refundLabel = pRet.refundType === 'conditional' ? '去程可改不可退／回程視艙等可退' : '去程可改不可退／回程可改可退';
+          } else if (pOut.refundType === 'conditional' || pRet.refundType === 'conditional') {
+            refundType = 'conditional';
+            refundLabel = '可改期／視艙等可退';
+          }
+
+          combos.push({
+            id: 'dyn-' + category + '-' + (seq++),
+            category: category,
+            refundType: refundType,
+            refundLabel: refundLabel,
+            outbound: { airline: o.airline, flightNo: o.flightNo, time: o.time, url: o.url, fareNote: o.fareNote },
+            returnLeg: { airline: r.airline, flightNo: r.flightNo, time: r.time, url: r.url, fareNote: r.fareNote },
+            baseTotal: singleTotal * 4,
+            highTotal: null,
+            priceNote: category === 'lcc_lcc' ? '去回含 20kg 託運（單人疊加）' : (category === 'lcc_fsc' ? '已含廉航 20kg 託運（單人疊加）' : '全時段直營組合（單人疊加）'),
+            paidSeatLegs: o.isLcc && r.isLcc ? 2 : 1,
+            baggagePolicy: o.airline === r.airline ? (pOut.bag || '') : ((pOut.bag || '') + '；' + (pRet.bag || '')),
+            policyUrl: pOut.policyUrl || '',
+            policySource: pOut.policySource || (o.airline + '規定'),
+            secondaryPolicyUrl: o.airline !== r.airline ? (pRet.policyUrl || null) : null,
+            secondaryPolicySource: o.airline !== r.airline ? (pRet.policySource || null) : null,
+            seatPolicy: o.airline === r.airline ? (pOut.seat || '') : ((pOut.seat || '') + '；' + (pRet.seat || '')),
+            seatUrl: pOut.seatUrl || ''
+          });
+        });
+      });
+
+      return combos;
+    }
+
+    const DEFAULT_JUNE_LEGS = {"outbound":[{"date":"2027-06-01","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":5499,"isLcc":true},{"date":"2027-06-01","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":5793,"isLcc":true},{"date":"2027-06-01","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":9911,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":9385,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":5793,"isLcc":true},{"date":"2027-06-01","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-02","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":4999,"isLcc":true},{"date":"2027-06-02","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":6658,"isLcc":true},{"date":"2027-06-02","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-02","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":9911,"isLcc":false},{"date":"2027-06-02","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-02","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-02","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-02","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":9385,"isLcc":false},{"date":"2027-06-02","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-02","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-02","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"14:25–18:35","price1p":5499,"isLcc":true},{"date":"2027-06-02","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-02","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-02","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-02","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-03","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":6499,"isLcc":true},{"date":"2027-06-03","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":6658,"isLcc":true},{"date":"2027-06-03","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-03","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":10490,"isLcc":false},{"date":"2027-06-03","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-03","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-03","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-03","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":9385,"isLcc":false},{"date":"2027-06-03","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-03","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-03","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-03","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-03","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-03","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"15:30–19:55","price1p":5499,"isLcc":true},{"date":"2027-06-03","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":5793,"isLcc":true},{"date":"2027-06-03","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":6499,"isLcc":true},{"date":"2027-06-01","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":6658,"isLcc":true},{"date":"2027-06-01","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":12470,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":12470,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"14:25–18:35","price1p":5999,"isLcc":true},{"date":"2027-06-01","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-01","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":6658,"isLcc":true},{"date":"2027-06-01","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-05","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":7599,"isLcc":true},{"date":"2027-06-05","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":7376,"isLcc":true},{"date":"2027-06-05","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":11936,"isLcc":false},{"date":"2027-06-05","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":9911,"isLcc":false},{"date":"2027-06-05","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-05","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":11936,"isLcc":false},{"date":"2027-06-05","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":9735,"isLcc":false},{"date":"2027-06-05","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":9385,"isLcc":false},{"date":"2027-06-05","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-05","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-05","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"14:25–18:35","price1p":6599,"isLcc":true},{"date":"2027-06-05","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-05","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-05","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-05","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":6658,"isLcc":true},{"date":"2027-06-05","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-06","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":6599,"isLcc":true},{"date":"2027-06-06","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":6658,"isLcc":true},{"date":"2027-06-06","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":11936,"isLcc":false},{"date":"2027-06-06","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":14492,"isLcc":false},{"date":"2027-06-06","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-06","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-06","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-06","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":12470,"isLcc":false},{"date":"2027-06-06","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-06","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-06","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-06","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-06","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-06","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-07","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":6599,"isLcc":true},{"date":"2027-06-07","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":6658,"isLcc":true},{"date":"2027-06-07","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-07","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":9911,"isLcc":false},{"date":"2027-06-07","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-07","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-07","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-07","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":9385,"isLcc":false},{"date":"2027-06-07","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-07","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-07","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"14:25–18:35","price1p":5099,"isLcc":true},{"date":"2027-06-07","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-07","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-07","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-07","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":6658,"isLcc":true},{"date":"2027-06-07","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-08","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":5099,"isLcc":true},{"date":"2027-06-08","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":6658,"isLcc":true},{"date":"2027-06-08","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-08","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":9911,"isLcc":false},{"date":"2027-06-08","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-08","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-08","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-08","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":9385,"isLcc":false},{"date":"2027-06-08","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-08","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-08","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-08","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-08","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-08","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":5793,"isLcc":true},{"date":"2027-06-08","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-09","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":7599,"isLcc":true},{"date":"2027-06-09","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":8095,"isLcc":true},{"date":"2027-06-09","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":12566,"isLcc":false},{"date":"2027-06-09","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":9911,"isLcc":false},{"date":"2027-06-09","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-09","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":11936,"isLcc":false},{"date":"2027-06-09","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-09","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":9385,"isLcc":false},{"date":"2027-06-09","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-09","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-09","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"14:25–18:35","price1p":6599,"isLcc":true},{"date":"2027-06-09","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-09","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-09","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-09","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-10","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":6599,"isLcc":true},{"date":"2027-06-10","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":6658,"isLcc":true},{"date":"2027-06-10","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-10","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":9911,"isLcc":false},{"date":"2027-06-10","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-10","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-10","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-10","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":9385,"isLcc":false},{"date":"2027-06-10","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-10","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-10","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-10","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-10","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-10","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"15:30–19:55","price1p":5099,"isLcc":true},{"date":"2027-06-10","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":5793,"isLcc":true},{"date":"2027-06-10","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-11","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":6599,"isLcc":true},{"date":"2027-06-11","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":6658,"isLcc":true},{"date":"2027-06-11","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-11","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":10490,"isLcc":false},{"date":"2027-06-11","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-11","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-11","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-11","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":10490,"isLcc":false},{"date":"2027-06-11","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-11","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-11","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"14:25–18:35","price1p":6099,"isLcc":true},{"date":"2027-06-11","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-11","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-11","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-11","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":6658,"isLcc":true},{"date":"2027-06-11","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-12","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":6099,"isLcc":true},{"date":"2027-06-12","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":7376,"isLcc":true},{"date":"2027-06-12","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-12","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":9911,"isLcc":false},{"date":"2027-06-12","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-12","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-12","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":9735,"isLcc":false},{"date":"2027-06-12","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":9385,"isLcc":false},{"date":"2027-06-12","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-12","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-12","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"14:25–18:35","price1p":5599,"isLcc":true},{"date":"2027-06-12","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-12","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-12","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-12","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":6658,"isLcc":true},{"date":"2027-06-12","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-13","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":6099,"isLcc":true},{"date":"2027-06-13","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":7376,"isLcc":true},{"date":"2027-06-13","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-13","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":12470,"isLcc":false},{"date":"2027-06-13","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-13","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-13","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-13","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":10490,"isLcc":false},{"date":"2027-06-13","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-13","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-13","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-13","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-13","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-13","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":6499,"isLcc":true},{"date":"2027-06-30","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":6658,"isLcc":true},{"date":"2027-06-30","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":9911,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":9385,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"14:25–18:35","price1p":5499,"isLcc":true},{"date":"2027-06-30","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":6658,"isLcc":true},{"date":"2027-06-30","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-15","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":5999,"isLcc":true},{"date":"2027-06-15","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":6658,"isLcc":true},{"date":"2027-06-15","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-15","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":9911,"isLcc":false},{"date":"2027-06-15","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-15","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-15","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-15","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":9385,"isLcc":false},{"date":"2027-06-15","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-15","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-15","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-15","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-15","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-15","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":5793,"isLcc":true},{"date":"2027-06-15","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-16","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":4999,"isLcc":true},{"date":"2027-06-16","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":6658,"isLcc":true},{"date":"2027-06-16","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-16","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":10490,"isLcc":false},{"date":"2027-06-16","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-16","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-16","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-16","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":9385,"isLcc":false},{"date":"2027-06-16","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-16","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-16","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"14:25–18:35","price1p":5499,"isLcc":true},{"date":"2027-06-16","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-16","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-16","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-16","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-17","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":6499,"isLcc":true},{"date":"2027-06-17","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":7376,"isLcc":true},{"date":"2027-06-17","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-17","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":10490,"isLcc":false},{"date":"2027-06-17","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-17","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-17","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-17","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":10490,"isLcc":false},{"date":"2027-06-17","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-17","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-17","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-17","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-17","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-17","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"15:30–19:55","price1p":5499,"isLcc":true},{"date":"2027-06-17","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":5793,"isLcc":true},{"date":"2027-06-17","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-18","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":5999,"isLcc":true},{"date":"2027-06-18","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":7376,"isLcc":true},{"date":"2027-06-18","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-18","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":9911,"isLcc":false},{"date":"2027-06-18","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-18","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-18","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-18","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":9385,"isLcc":false},{"date":"2027-06-18","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-18","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-18","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"14:25–18:35","price1p":5499,"isLcc":true},{"date":"2027-06-18","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-18","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-18","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-18","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":6658,"isLcc":true},{"date":"2027-06-18","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-19","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":6499,"isLcc":true},{"date":"2027-06-19","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":8095,"isLcc":true},{"date":"2027-06-19","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-19","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":9911,"isLcc":false},{"date":"2027-06-19","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-19","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-19","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":9735,"isLcc":false},{"date":"2027-06-19","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":9385,"isLcc":false},{"date":"2027-06-19","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-19","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-19","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"14:25–18:35","price1p":5999,"isLcc":true},{"date":"2027-06-19","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-19","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-19","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-19","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":6658,"isLcc":true},{"date":"2027-06-19","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-20","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":6999,"isLcc":true},{"date":"2027-06-20","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":7376,"isLcc":true},{"date":"2027-06-20","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-20","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":12470,"isLcc":false},{"date":"2027-06-20","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-20","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-20","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-20","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":14492,"isLcc":false},{"date":"2027-06-20","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-20","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-20","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-20","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-20","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-20","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-21","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":6999,"isLcc":true},{"date":"2027-06-21","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":6658,"isLcc":true},{"date":"2027-06-21","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-21","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":9911,"isLcc":false},{"date":"2027-06-21","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-21","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-21","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-21","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":9385,"isLcc":false},{"date":"2027-06-21","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-21","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-21","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"14:25–18:35","price1p":4999,"isLcc":true},{"date":"2027-06-21","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-21","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-21","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-21","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":6658,"isLcc":true},{"date":"2027-06-21","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-22","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":6999,"isLcc":true},{"date":"2027-06-22","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":6658,"isLcc":true},{"date":"2027-06-22","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-22","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":9911,"isLcc":false},{"date":"2027-06-22","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-22","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-22","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-22","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":9385,"isLcc":false},{"date":"2027-06-22","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-22","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-22","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-22","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-22","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-22","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":5793,"isLcc":true},{"date":"2027-06-22","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-23","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":7499,"isLcc":true},{"date":"2027-06-23","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":6658,"isLcc":true},{"date":"2027-06-23","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":11936,"isLcc":false},{"date":"2027-06-23","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":9911,"isLcc":false},{"date":"2027-06-23","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":9994,"isLcc":false},{"date":"2027-06-23","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":10078,"isLcc":false},{"date":"2027-06-23","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-23","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":9385,"isLcc":false},{"date":"2027-06-23","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":9385,"isLcc":false},{"date":"2027-06-23","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-23","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"14:25–18:35","price1p":5999,"isLcc":true},{"date":"2027-06-23","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":9121,"isLcc":false},{"date":"2027-06-23","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-23","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-23","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":9121,"isLcc":false},{"date":"2027-06-24","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":7599,"isLcc":true},{"date":"2027-06-24","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":7376,"isLcc":true},{"date":"2027-06-24","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":10078,"isLcc":false},{"date":"2027-06-24","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":9911,"isLcc":false},{"date":"2027-06-24","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":12470,"isLcc":false},{"date":"2027-06-24","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":11936,"isLcc":false},{"date":"2027-06-24","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-24","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":9385,"isLcc":false},{"date":"2027-06-24","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":11471,"isLcc":false},{"date":"2027-06-24","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":11053,"isLcc":false},{"date":"2027-06-24","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":10847,"isLcc":false},{"date":"2027-06-24","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":9121,"isLcc":false},{"date":"2027-06-24","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-24","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"15:30–19:55","price1p":6099,"isLcc":true},{"date":"2027-06-24","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":6658,"isLcc":true},{"date":"2027-06-24","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":10847,"isLcc":false},{"date":"2027-06-25","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":7599,"isLcc":true},{"date":"2027-06-25","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":8095,"isLcc":true},{"date":"2027-06-25","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":11936,"isLcc":false},{"date":"2027-06-25","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":12470,"isLcc":false},{"date":"2027-06-25","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":12470,"isLcc":false},{"date":"2027-06-25","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":11936,"isLcc":false},{"date":"2027-06-25","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":12635,"isLcc":false},{"date":"2027-06-25","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":12470,"isLcc":false},{"date":"2027-06-25","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":11471,"isLcc":false},{"date":"2027-06-25","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":12823,"isLcc":false},{"date":"2027-06-25","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"14:25–18:35","price1p":6599,"isLcc":true},{"date":"2027-06-25","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":10847,"isLcc":false},{"date":"2027-06-25","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":12470,"isLcc":false},{"date":"2027-06-25","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":9268,"isLcc":false},{"date":"2027-06-25","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":6658,"isLcc":true},{"date":"2027-06-25","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":10847,"isLcc":false},{"date":"2027-06-26","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":7599,"isLcc":true},{"date":"2027-06-26","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":8916,"isLcc":true},{"date":"2027-06-26","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":14065,"isLcc":false},{"date":"2027-06-26","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":14279,"isLcc":false},{"date":"2027-06-26","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":14279,"isLcc":false},{"date":"2027-06-26","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":13746,"isLcc":false},{"date":"2027-06-26","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":11835,"isLcc":false},{"date":"2027-06-26","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":13842,"isLcc":false},{"date":"2027-06-26","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":12782,"isLcc":false},{"date":"2027-06-26","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":12823,"isLcc":false},{"date":"2027-06-26","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"14:25–18:35","price1p":7099,"isLcc":true},{"date":"2027-06-26","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":12844,"isLcc":false},{"date":"2027-06-26","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":12158,"isLcc":false},{"date":"2027-06-26","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":13746,"isLcc":false},{"date":"2027-06-26","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":7376,"isLcc":true},{"date":"2027-06-26","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":12844,"isLcc":false},{"date":"2027-06-27","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":7099,"isLcc":true},{"date":"2027-06-27","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":7376,"isLcc":true},{"date":"2027-06-27","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":13746,"isLcc":false},{"date":"2027-06-27","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":14279,"isLcc":false},{"date":"2027-06-27","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":13530,"isLcc":false},{"date":"2027-06-27","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":13746,"isLcc":false},{"date":"2027-06-27","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":14735,"isLcc":false},{"date":"2027-06-27","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":14279,"isLcc":false},{"date":"2027-06-27","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":12782,"isLcc":false},{"date":"2027-06-27","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":12823,"isLcc":false},{"date":"2027-06-27","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":12158,"isLcc":false},{"date":"2027-06-27","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":12158,"isLcc":false},{"date":"2027-06-27","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":13746,"isLcc":false},{"date":"2027-06-27","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":12158,"isLcc":false},{"date":"2027-06-28","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":7099,"isLcc":true},{"date":"2027-06-28","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":6658,"isLcc":true},{"date":"2027-06-28","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":14065,"isLcc":false},{"date":"2027-06-28","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":13530,"isLcc":false},{"date":"2027-06-28","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":13530,"isLcc":false},{"date":"2027-06-28","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":13746,"isLcc":false},{"date":"2027-06-28","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":14735,"isLcc":false},{"date":"2027-06-28","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":12906,"isLcc":false},{"date":"2027-06-28","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":12782,"isLcc":false},{"date":"2027-06-28","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":12823,"isLcc":false},{"date":"2027-06-28","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"14:25–18:35","price1p":6099,"isLcc":true},{"date":"2027-06-28","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":12158,"isLcc":false},{"date":"2027-06-28","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":12158,"isLcc":false},{"date":"2027-06-28","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":13746,"isLcc":false},{"date":"2027-06-28","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":6658,"isLcc":true},{"date":"2027-06-28","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":12158,"isLcc":false},{"date":"2027-06-29","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":7099,"isLcc":true},{"date":"2027-06-29","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":6658,"isLcc":true},{"date":"2027-06-29","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":13746,"isLcc":false},{"date":"2027-06-29","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":13530,"isLcc":false},{"date":"2027-06-29","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":13530,"isLcc":false},{"date":"2027-06-29","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":13746,"isLcc":false},{"date":"2027-06-29","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":14735,"isLcc":false},{"date":"2027-06-29","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":12906,"isLcc":false},{"date":"2027-06-29","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":12782,"isLcc":false},{"date":"2027-06-29","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":12823,"isLcc":false},{"date":"2027-06-29","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":12158,"isLcc":false},{"date":"2027-06-29","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":12158,"isLcc":false},{"date":"2027-06-29","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":13746,"isLcc":false},{"date":"2027-06-29","dir":"去程","airline":"酷航","flightNo":"TR870","time":"15:30–20:00","price1p":5793,"isLcc":true},{"date":"2027-06-29","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":12158,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"台灣虎航","flightNo":"IT200","time":"06:35–11:00","price1p":7599,"isLcc":true},{"date":"2027-06-30","dir":"去程","airline":"酷航","flightNo":"TR866","time":"06:45–11:15","price1p":7376,"isLcc":true},{"date":"2027-06-30","dir":"去程","airline":"長榮航空","flightNo":"BR184","time":"07:55–12:25","price1p":13746,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"星宇航空","flightNo":"JX800","time":"08:30–12:55","price1p":13530,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"中華航空","flightNo":"CI100","time":"08:50–13:15","price1p":13530,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"長榮航空","flightNo":"BR198","time":"09:00–13:25","price1p":13746,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"日本航空","flightNo":"JL802","time":"10:00–14:30","price1p":14735,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"星宇航空","flightNo":"JX802","time":"10:40–15:05","price1p":12906,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"中華航空","flightNo":"CI104","time":"12:15–16:35","price1p":12782,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"國泰航空","flightNo":"CX450","time":"13:00–17:15","price1p":12823,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"台灣虎航","flightNo":"IT202","time":"14:25–18:35","price1p":6099,"isLcc":true},{"date":"2027-06-30","dir":"去程","airline":"中華航空","flightNo":"CI108","time":"14:35–19:00","price1p":12158,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"星宇航空","flightNo":"JX804","time":"15:00–19:25","price1p":12158,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"長榮航空","flightNo":"BR196","time":"15:20–19:40","price1p":13746,"isLcc":false},{"date":"2027-06-30","dir":"去程","airline":"中華航空","flightNo":"CI106","time":"16:25–20:50","price1p":12158,"isLcc":false}],"return":[{"date":"2027-06-01","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8033,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5374,"isLcc":true},{"date":"2027-06-01","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8447,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8881,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8447,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8529,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9965,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8881,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14902,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33470,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14902,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8447,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8881,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"台灣虎航","flightNo":"IT701","time":"20:45–23:25","price1p":5834,"isLcc":true},{"date":"2027-06-01","dir":"回程","airline":"酷航","flightNo":"TR871","time":"21:15–23:55","price1p":5374,"isLcc":true},{"date":"2027-06-02","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8033,"isLcc":false},{"date":"2027-06-02","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5374,"isLcc":true},{"date":"2027-06-02","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8447,"isLcc":false},{"date":"2027-06-02","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"13:30–16:25","price1p":6393,"isLcc":true},{"date":"2027-06-02","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8881,"isLcc":false},{"date":"2027-06-02","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8447,"isLcc":false},{"date":"2027-06-02","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8529,"isLcc":false},{"date":"2027-06-02","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9965,"isLcc":false},{"date":"2027-06-02","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8881,"isLcc":false},{"date":"2027-06-02","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14902,"isLcc":false},{"date":"2027-06-02","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33470,"isLcc":false},{"date":"2027-06-02","dir":"回程","airline":"台灣虎航","flightNo":"IT203","time":"19:30–22:35","price1p":6393,"isLcc":true},{"date":"2027-06-02","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14902,"isLcc":false},{"date":"2027-06-02","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8447,"isLcc":false},{"date":"2027-06-02","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8881,"isLcc":false},{"date":"2027-06-03","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8033,"isLcc":false},{"date":"2027-06-03","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"11:50–14:40","price1p":5503,"isLcc":true},{"date":"2027-06-03","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5374,"isLcc":true},{"date":"2027-06-03","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8447,"isLcc":false},{"date":"2027-06-03","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8881,"isLcc":false},{"date":"2027-06-03","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":12130,"isLcc":false},{"date":"2027-06-03","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8529,"isLcc":false},{"date":"2027-06-03","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9965,"isLcc":false},{"date":"2027-06-03","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8881,"isLcc":false},{"date":"2027-06-03","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14902,"isLcc":false},{"date":"2027-06-03","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33470,"isLcc":false},{"date":"2027-06-03","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14902,"isLcc":false},{"date":"2027-06-03","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8447,"isLcc":false},{"date":"2027-06-03","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8881,"isLcc":false},{"date":"2027-06-03","dir":"回程","airline":"台灣虎航","flightNo":"IT701","time":"20:45–23:25","price1p":6393,"isLcc":true},{"date":"2027-06-03","dir":"回程","airline":"酷航","flightNo":"TR871","time":"21:15–23:55","price1p":5374,"isLcc":true},{"date":"2027-06-01","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8035,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5376,"isLcc":true},{"date":"2027-06-01","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8449,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"13:30–16:25","price1p":6394,"isLcc":true},{"date":"2027-06-01","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8884,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8449,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8532,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9969,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8884,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14907,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33481,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"台灣虎航","flightNo":"IT203","time":"19:30–22:35","price1p":6394,"isLcc":true},{"date":"2027-06-01","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14907,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8449,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8884,"isLcc":false},{"date":"2027-06-01","dir":"回程","airline":"酷航","flightNo":"TR871","time":"21:15–23:55","price1p":5376,"isLcc":true},{"date":"2027-06-05","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8035,"isLcc":false},{"date":"2027-06-05","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:05","price1p":5376,"isLcc":true},{"date":"2027-06-05","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8449,"isLcc":false},{"date":"2027-06-05","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"13:30–16:25","price1p":6498,"isLcc":true},{"date":"2027-06-05","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8884,"isLcc":false},{"date":"2027-06-05","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8449,"isLcc":false},{"date":"2027-06-05","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8532,"isLcc":false},{"date":"2027-06-05","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9969,"isLcc":false},{"date":"2027-06-05","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8884,"isLcc":false},{"date":"2027-06-05","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14907,"isLcc":false},{"date":"2027-06-05","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33481,"isLcc":false},{"date":"2027-06-05","dir":"回程","airline":"台灣虎航","flightNo":"IT203","time":"19:30–22:35","price1p":6498,"isLcc":true},{"date":"2027-06-05","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14907,"isLcc":false},{"date":"2027-06-05","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8449,"isLcc":false},{"date":"2027-06-05","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8884,"isLcc":false},{"date":"2027-06-05","dir":"回程","airline":"酷航","flightNo":"TR871","time":"21:15–23:55","price1p":5376,"isLcc":true},{"date":"2027-06-06","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8035,"isLcc":false},{"date":"2027-06-06","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":6500,"isLcc":true},{"date":"2027-06-06","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":10560,"isLcc":false},{"date":"2027-06-06","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8884,"isLcc":false},{"date":"2027-06-06","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":10560,"isLcc":false},{"date":"2027-06-06","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8532,"isLcc":false},{"date":"2027-06-06","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9969,"isLcc":false},{"date":"2027-06-06","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":10126,"isLcc":false},{"date":"2027-06-06","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14907,"isLcc":false},{"date":"2027-06-06","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":38242,"isLcc":false},{"date":"2027-06-06","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14907,"isLcc":false},{"date":"2027-06-06","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":10560,"isLcc":false},{"date":"2027-06-06","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8884,"isLcc":false},{"date":"2027-06-06","dir":"回程","airline":"台灣虎航","flightNo":"IT701","time":"20:45–23:25","price1p":6498,"isLcc":true},{"date":"2027-06-07","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8035,"isLcc":false},{"date":"2027-06-07","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5920,"isLcc":true},{"date":"2027-06-07","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8449,"isLcc":false},{"date":"2027-06-07","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"13:30–16:25","price1p":5939,"isLcc":true},{"date":"2027-06-07","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8884,"isLcc":false},{"date":"2027-06-07","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8449,"isLcc":false},{"date":"2027-06-07","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8532,"isLcc":false},{"date":"2027-06-07","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9969,"isLcc":false},{"date":"2027-06-07","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8884,"isLcc":false},{"date":"2027-06-07","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14907,"isLcc":false},{"date":"2027-06-07","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":38242,"isLcc":false},{"date":"2027-06-07","dir":"回程","airline":"台灣虎航","flightNo":"IT203","time":"19:30–22:35","price1p":5939,"isLcc":true},{"date":"2027-06-07","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14907,"isLcc":false},{"date":"2027-06-07","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8449,"isLcc":false},{"date":"2027-06-07","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8884,"isLcc":false},{"date":"2027-06-07","dir":"回程","airline":"酷航","flightNo":"TR871","time":"21:15–23:55","price1p":6500,"isLcc":true},{"date":"2027-06-08","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8035,"isLcc":false},{"date":"2027-06-08","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5376,"isLcc":true},{"date":"2027-06-08","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8449,"isLcc":false},{"date":"2027-06-08","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8884,"isLcc":false},{"date":"2027-06-08","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8449,"isLcc":false},{"date":"2027-06-08","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8532,"isLcc":false},{"date":"2027-06-08","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9969,"isLcc":false},{"date":"2027-06-08","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8884,"isLcc":false},{"date":"2027-06-08","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14907,"isLcc":false},{"date":"2027-06-08","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33481,"isLcc":false},{"date":"2027-06-08","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14907,"isLcc":false},{"date":"2027-06-08","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8449,"isLcc":false},{"date":"2027-06-08","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8884,"isLcc":false},{"date":"2027-06-08","dir":"回程","airline":"台灣虎航","flightNo":"IT701","time":"20:45–23:25","price1p":7036,"isLcc":true},{"date":"2027-06-08","dir":"回程","airline":"酷航","flightNo":"TR871","time":"21:15–23:55","price1p":5376,"isLcc":true},{"date":"2027-06-09","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8035,"isLcc":false},{"date":"2027-06-09","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5376,"isLcc":true},{"date":"2027-06-09","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8449,"isLcc":false},{"date":"2027-06-09","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"13:30–16:25","price1p":7574,"isLcc":true},{"date":"2027-06-09","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8884,"isLcc":false},{"date":"2027-06-09","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":12134,"isLcc":false},{"date":"2027-06-09","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8532,"isLcc":false},{"date":"2027-06-09","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9969,"isLcc":false},{"date":"2027-06-09","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8884,"isLcc":false},{"date":"2027-06-09","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":11637,"isLcc":false},{"date":"2027-06-09","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33481,"isLcc":false},{"date":"2027-06-09","dir":"回程","airline":"台灣虎航","flightNo":"IT203","time":"19:30–22:35","price1p":7574,"isLcc":true},{"date":"2027-06-09","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":11637,"isLcc":false},{"date":"2027-06-09","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":10560,"isLcc":false},{"date":"2027-06-09","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8884,"isLcc":false},{"date":"2027-06-10","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8035,"isLcc":false},{"date":"2027-06-10","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"11:50–14:40","price1p":6498,"isLcc":true},{"date":"2027-06-10","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5376,"isLcc":true},{"date":"2027-06-10","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8449,"isLcc":false},{"date":"2027-06-10","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8884,"isLcc":false},{"date":"2027-06-10","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8449,"isLcc":false},{"date":"2027-06-10","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8532,"isLcc":false},{"date":"2027-06-10","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9976,"isLcc":false},{"date":"2027-06-10","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8884,"isLcc":false},{"date":"2027-06-10","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14907,"isLcc":false},{"date":"2027-06-10","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33507,"isLcc":false},{"date":"2027-06-10","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14907,"isLcc":false},{"date":"2027-06-10","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8449,"isLcc":false},{"date":"2027-06-10","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8884,"isLcc":false},{"date":"2027-06-10","dir":"回程","airline":"台灣虎航","flightNo":"IT701","time":"20:45–23:25","price1p":5939,"isLcc":true},{"date":"2027-06-10","dir":"回程","airline":"酷航","flightNo":"TR871","time":"21:15–23:55","price1p":5376,"isLcc":true},{"date":"2027-06-11","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8035,"isLcc":false},{"date":"2027-06-11","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5376,"isLcc":true},{"date":"2027-06-11","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8449,"isLcc":false},{"date":"2027-06-11","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"13:30–16:25","price1p":5939,"isLcc":true},{"date":"2027-06-11","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8884,"isLcc":false},{"date":"2027-06-11","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8449,"isLcc":false},{"date":"2027-06-11","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8532,"isLcc":false},{"date":"2027-06-11","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9969,"isLcc":false},{"date":"2027-06-11","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8884,"isLcc":false},{"date":"2027-06-11","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14907,"isLcc":false},{"date":"2027-06-11","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33481,"isLcc":false},{"date":"2027-06-11","dir":"回程","airline":"台灣虎航","flightNo":"IT203","time":"19:30–22:35","price1p":7036,"isLcc":true},{"date":"2027-06-11","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14907,"isLcc":false},{"date":"2027-06-11","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8449,"isLcc":false},{"date":"2027-06-11","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8884,"isLcc":false},{"date":"2027-06-11","dir":"回程","airline":"酷航","flightNo":"TR871","time":"21:15–23:55","price1p":5376,"isLcc":true},{"date":"2027-06-12","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8035,"isLcc":false},{"date":"2027-06-12","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:05","price1p":7121,"isLcc":true},{"date":"2027-06-12","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8449,"isLcc":false},{"date":"2027-06-12","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"13:30–16:25","price1p":7036,"isLcc":true},{"date":"2027-06-12","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":10126,"isLcc":false},{"date":"2027-06-12","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":10560,"isLcc":false},{"date":"2027-06-12","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8532,"isLcc":false},{"date":"2027-06-12","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9969,"isLcc":false},{"date":"2027-06-12","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":11223,"isLcc":false},{"date":"2027-06-12","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":11637,"isLcc":false},{"date":"2027-06-12","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33481,"isLcc":false},{"date":"2027-06-12","dir":"回程","airline":"台灣虎航","flightNo":"IT203","time":"19:30–22:35","price1p":8133,"isLcc":true},{"date":"2027-06-12","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":11637,"isLcc":false},{"date":"2027-06-12","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":10560,"isLcc":false},{"date":"2027-06-12","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":11223,"isLcc":false},{"date":"2027-06-12","dir":"回程","airline":"酷航","flightNo":"TR871","time":"21:15–23:55","price1p":7949,"isLcc":true},{"date":"2027-06-13","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8035,"isLcc":false},{"date":"2027-06-13","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":7949,"isLcc":true},{"date":"2027-06-13","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":10569,"isLcc":false},{"date":"2027-06-13","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":10126,"isLcc":false},{"date":"2027-06-13","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":10569,"isLcc":false},{"date":"2027-06-13","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8532,"isLcc":false},{"date":"2027-06-13","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":11293,"isLcc":false},{"date":"2027-06-13","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":11223,"isLcc":false},{"date":"2027-06-13","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":11637,"isLcc":false},{"date":"2027-06-13","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":38242,"isLcc":false},{"date":"2027-06-13","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":11637,"isLcc":false},{"date":"2027-06-13","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":10569,"isLcc":false},{"date":"2027-06-13","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":11223,"isLcc":false},{"date":"2027-06-13","dir":"回程","airline":"台灣虎航","flightNo":"IT701","time":"20:45–23:25","price1p":8671,"isLcc":true},{"date":"2027-06-30","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8035,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5920,"isLcc":true},{"date":"2027-06-30","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8449,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"13:30–16:25","price1p":5835,"isLcc":true},{"date":"2027-06-30","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8884,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8449,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8532,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9969,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":11223,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14907,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":38242,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"台灣虎航","flightNo":"IT203","time":"19:30–22:35","price1p":8029,"isLcc":true},{"date":"2027-06-30","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14907,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8449,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8884,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"酷航","flightNo":"TR871","time":"21:15–23:55","price1p":6500,"isLcc":true},{"date":"2027-06-15","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8033,"isLcc":false},{"date":"2027-06-15","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5919,"isLcc":true},{"date":"2027-06-15","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8447,"isLcc":false},{"date":"2027-06-15","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8881,"isLcc":false},{"date":"2027-06-15","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8447,"isLcc":false},{"date":"2027-06-15","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8529,"isLcc":false},{"date":"2027-06-15","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9965,"isLcc":false},{"date":"2027-06-15","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8881,"isLcc":false},{"date":"2027-06-15","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14902,"isLcc":false},{"date":"2027-06-15","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33470,"isLcc":false},{"date":"2027-06-15","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14902,"isLcc":false},{"date":"2027-06-15","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8447,"isLcc":false},{"date":"2027-06-15","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8881,"isLcc":false},{"date":"2027-06-15","dir":"回程","airline":"台灣虎航","flightNo":"IT701","time":"20:45–23:25","price1p":5503,"isLcc":true},{"date":"2027-06-15","dir":"回程","airline":"酷航","flightNo":"TR871","time":"21:15–23:55","price1p":6498,"isLcc":true},{"date":"2027-06-16","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8033,"isLcc":false},{"date":"2027-06-16","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5919,"isLcc":true},{"date":"2027-06-16","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8447,"isLcc":false},{"date":"2027-06-16","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"13:30–16:25","price1p":6393,"isLcc":true},{"date":"2027-06-16","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8881,"isLcc":false},{"date":"2027-06-16","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8447,"isLcc":false},{"date":"2027-06-16","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8529,"isLcc":false},{"date":"2027-06-16","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9965,"isLcc":false},{"date":"2027-06-16","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8881,"isLcc":false},{"date":"2027-06-16","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14902,"isLcc":false},{"date":"2027-06-16","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33470,"isLcc":false},{"date":"2027-06-16","dir":"回程","airline":"台灣虎航","flightNo":"IT203","time":"19:30–22:35","price1p":6393,"isLcc":true},{"date":"2027-06-16","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14902,"isLcc":false},{"date":"2027-06-16","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8447,"isLcc":false},{"date":"2027-06-16","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8881,"isLcc":false},{"date":"2027-06-17","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8033,"isLcc":false},{"date":"2027-06-17","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"11:50–14:40","price1p":5503,"isLcc":true},{"date":"2027-06-17","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5469,"isLcc":true},{"date":"2027-06-17","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8447,"isLcc":false},{"date":"2027-06-17","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8881,"isLcc":false},{"date":"2027-06-17","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8447,"isLcc":false},{"date":"2027-06-17","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8529,"isLcc":false},{"date":"2027-06-17","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9965,"isLcc":false},{"date":"2027-06-17","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8881,"isLcc":false},{"date":"2027-06-17","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14902,"isLcc":false},{"date":"2027-06-17","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33470,"isLcc":false},{"date":"2027-06-17","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14902,"isLcc":false},{"date":"2027-06-17","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8447,"isLcc":false},{"date":"2027-06-17","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8881,"isLcc":false},{"date":"2027-06-17","dir":"回程","airline":"台灣虎航","flightNo":"IT701","time":"20:45–23:25","price1p":6393,"isLcc":true},{"date":"2027-06-17","dir":"回程","airline":"酷航","flightNo":"TR871","time":"21:15–23:55","price1p":5469,"isLcc":true},{"date":"2027-06-18","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8033,"isLcc":false},{"date":"2027-06-18","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5919,"isLcc":true},{"date":"2027-06-18","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8447,"isLcc":false},{"date":"2027-06-18","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"13:30–16:25","price1p":5834,"isLcc":true},{"date":"2027-06-18","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8881,"isLcc":false},{"date":"2027-06-18","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8447,"isLcc":false},{"date":"2027-06-18","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8529,"isLcc":false},{"date":"2027-06-18","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9965,"isLcc":false},{"date":"2027-06-18","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8881,"isLcc":false},{"date":"2027-06-18","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14902,"isLcc":false},{"date":"2027-06-18","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33470,"isLcc":false},{"date":"2027-06-18","dir":"回程","airline":"台灣虎航","flightNo":"IT203","time":"19:30–22:35","price1p":6393,"isLcc":true},{"date":"2027-06-18","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14902,"isLcc":false},{"date":"2027-06-18","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8447,"isLcc":false},{"date":"2027-06-18","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8881,"isLcc":false},{"date":"2027-06-18","dir":"回程","airline":"酷航","flightNo":"TR871","time":"21:15–23:55","price1p":6498,"isLcc":true},{"date":"2027-06-19","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8033,"isLcc":false},{"date":"2027-06-19","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:05","price1p":5919,"isLcc":true},{"date":"2027-06-19","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8447,"isLcc":false},{"date":"2027-06-19","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"13:30–16:25","price1p":6393,"isLcc":true},{"date":"2027-06-19","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":10122,"isLcc":false},{"date":"2027-06-19","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8447,"isLcc":false},{"date":"2027-06-19","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8529,"isLcc":false},{"date":"2027-06-19","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9965,"isLcc":false},{"date":"2027-06-19","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":11219,"isLcc":false},{"date":"2027-06-19","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14902,"isLcc":false},{"date":"2027-06-19","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33470,"isLcc":false},{"date":"2027-06-19","dir":"回程","airline":"台灣虎航","flightNo":"IT203","time":"19:30–22:35","price1p":6393,"isLcc":true},{"date":"2027-06-19","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14902,"isLcc":false},{"date":"2027-06-19","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8447,"isLcc":false},{"date":"2027-06-19","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":10122,"isLcc":false},{"date":"2027-06-19","dir":"回程","airline":"酷航","flightNo":"TR871","time":"21:15–23:55","price1p":6498,"isLcc":true},{"date":"2027-06-20","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8033,"isLcc":false},{"date":"2027-06-20","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":7119,"isLcc":true},{"date":"2027-06-20","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":10557,"isLcc":false},{"date":"2027-06-20","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":11219,"isLcc":false},{"date":"2027-06-20","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":10557,"isLcc":false},{"date":"2027-06-20","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8529,"isLcc":false},{"date":"2027-06-20","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9965,"isLcc":false},{"date":"2027-06-20","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":12192,"isLcc":false},{"date":"2027-06-20","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14902,"isLcc":false},{"date":"2027-06-20","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":38229,"isLcc":false},{"date":"2027-06-20","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14902,"isLcc":false},{"date":"2027-06-20","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":10557,"isLcc":false},{"date":"2027-06-20","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":10122,"isLcc":false},{"date":"2027-06-20","dir":"回程","airline":"台灣虎航","flightNo":"IT701","time":"20:45–23:25","price1p":7468,"isLcc":true},{"date":"2027-06-21","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8033,"isLcc":false},{"date":"2027-06-21","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5919,"isLcc":true},{"date":"2027-06-21","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8447,"isLcc":false},{"date":"2027-06-21","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"13:30–16:25","price1p":6931,"isLcc":true},{"date":"2027-06-21","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8881,"isLcc":false},{"date":"2027-06-21","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8447,"isLcc":false},{"date":"2027-06-21","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8529,"isLcc":false},{"date":"2027-06-21","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9965,"isLcc":false},{"date":"2027-06-21","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":11219,"isLcc":false},{"date":"2027-06-21","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14902,"isLcc":false},{"date":"2027-06-21","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":38229,"isLcc":false},{"date":"2027-06-21","dir":"回程","airline":"台灣虎航","flightNo":"IT203","time":"19:30–22:35","price1p":8027,"isLcc":true},{"date":"2027-06-21","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14902,"isLcc":false},{"date":"2027-06-21","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8447,"isLcc":false},{"date":"2027-06-21","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8881,"isLcc":false},{"date":"2027-06-21","dir":"回程","airline":"酷航","flightNo":"TR871","time":"21:15–23:55","price1p":6498,"isLcc":true},{"date":"2027-06-22","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8033,"isLcc":false},{"date":"2027-06-22","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5919,"isLcc":true},{"date":"2027-06-22","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8447,"isLcc":false},{"date":"2027-06-22","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":10122,"isLcc":false},{"date":"2027-06-22","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8447,"isLcc":false},{"date":"2027-06-22","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8529,"isLcc":false},{"date":"2027-06-22","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9965,"isLcc":false},{"date":"2027-06-22","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":10122,"isLcc":false},{"date":"2027-06-22","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14902,"isLcc":false},{"date":"2027-06-22","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33470,"isLcc":false},{"date":"2027-06-22","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14902,"isLcc":false},{"date":"2027-06-22","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8447,"isLcc":false},{"date":"2027-06-22","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8881,"isLcc":false},{"date":"2027-06-22","dir":"回程","airline":"台灣虎航","flightNo":"IT701","time":"20:45–23:25","price1p":5834,"isLcc":true},{"date":"2027-06-22","dir":"回程","airline":"酷航","flightNo":"TR871","time":"21:15–23:55","price1p":6498,"isLcc":true},{"date":"2027-06-23","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8033,"isLcc":false},{"date":"2027-06-23","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5919,"isLcc":true},{"date":"2027-06-23","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8447,"isLcc":false},{"date":"2027-06-23","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"13:30–16:25","price1p":6393,"isLcc":true},{"date":"2027-06-23","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8881,"isLcc":false},{"date":"2027-06-23","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8447,"isLcc":false},{"date":"2027-06-23","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8529,"isLcc":false},{"date":"2027-06-23","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9965,"isLcc":false},{"date":"2027-06-23","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8881,"isLcc":false},{"date":"2027-06-23","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14902,"isLcc":false},{"date":"2027-06-23","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33470,"isLcc":false},{"date":"2027-06-23","dir":"回程","airline":"台灣虎航","flightNo":"IT203","time":"19:30–22:35","price1p":5503,"isLcc":true},{"date":"2027-06-23","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14902,"isLcc":false},{"date":"2027-06-23","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8447,"isLcc":false},{"date":"2027-06-23","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8881,"isLcc":false},{"date":"2027-06-24","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8033,"isLcc":false},{"date":"2027-06-24","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"11:50–14:40","price1p":5606,"isLcc":true},{"date":"2027-06-24","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5919,"isLcc":true},{"date":"2027-06-24","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8447,"isLcc":false},{"date":"2027-06-24","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8881,"isLcc":false},{"date":"2027-06-24","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8447,"isLcc":false},{"date":"2027-06-24","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8529,"isLcc":false},{"date":"2027-06-24","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9965,"isLcc":false},{"date":"2027-06-24","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8881,"isLcc":false},{"date":"2027-06-24","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14902,"isLcc":false},{"date":"2027-06-24","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33470,"isLcc":false},{"date":"2027-06-24","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14902,"isLcc":false},{"date":"2027-06-24","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8447,"isLcc":false},{"date":"2027-06-24","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8881,"isLcc":false},{"date":"2027-06-24","dir":"回程","airline":"台灣虎航","flightNo":"IT701","time":"20:45–23:25","price1p":5937,"isLcc":true},{"date":"2027-06-24","dir":"回程","airline":"酷航","flightNo":"TR871","time":"21:15–23:55","price1p":5919,"isLcc":true},{"date":"2027-06-25","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8033,"isLcc":false},{"date":"2027-06-25","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5919,"isLcc":true},{"date":"2027-06-25","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8447,"isLcc":false},{"date":"2027-06-25","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"13:30–16:25","price1p":6496,"isLcc":true},{"date":"2027-06-25","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8881,"isLcc":false},{"date":"2027-06-25","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8447,"isLcc":false},{"date":"2027-06-25","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8529,"isLcc":false},{"date":"2027-06-25","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":12324,"isLcc":false},{"date":"2027-06-25","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8881,"isLcc":false},{"date":"2027-06-25","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14902,"isLcc":false},{"date":"2027-06-25","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33470,"isLcc":false},{"date":"2027-06-25","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14902,"isLcc":false},{"date":"2027-06-25","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8447,"isLcc":false},{"date":"2027-06-25","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8881,"isLcc":false},{"date":"2027-06-26","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8033,"isLcc":false},{"date":"2027-06-26","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:05","price1p":5919,"isLcc":true},{"date":"2027-06-26","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8447,"isLcc":false},{"date":"2027-06-26","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"13:30–16:25","price1p":8131,"isLcc":true},{"date":"2027-06-26","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":10122,"isLcc":false},{"date":"2027-06-26","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8447,"isLcc":false},{"date":"2027-06-26","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8529,"isLcc":false},{"date":"2027-06-26","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":12324,"isLcc":false},{"date":"2027-06-26","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":10122,"isLcc":false},{"date":"2027-06-26","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14902,"isLcc":false},{"date":"2027-06-26","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33470,"isLcc":false},{"date":"2027-06-26","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14902,"isLcc":false},{"date":"2027-06-26","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8447,"isLcc":false},{"date":"2027-06-26","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":10122,"isLcc":false},{"date":"2027-06-27","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8033,"isLcc":false},{"date":"2027-06-27","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":7119,"isLcc":true},{"date":"2027-06-27","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":10557,"isLcc":false},{"date":"2027-06-27","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":10122,"isLcc":false},{"date":"2027-06-27","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":10557,"isLcc":false},{"date":"2027-06-27","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8529,"isLcc":false},{"date":"2027-06-27","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":12324,"isLcc":false},{"date":"2027-06-27","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":10122,"isLcc":false},{"date":"2027-06-27","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14902,"isLcc":false},{"date":"2027-06-27","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":38229,"isLcc":false},{"date":"2027-06-27","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14902,"isLcc":false},{"date":"2027-06-27","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":10557,"isLcc":false},{"date":"2027-06-27","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":10122,"isLcc":false},{"date":"2027-06-27","dir":"回程","airline":"台灣虎航","flightNo":"IT701","time":"20:45–23:25","price1p":8669,"isLcc":true},{"date":"2027-06-28","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8033,"isLcc":false},{"date":"2027-06-28","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5919,"isLcc":true},{"date":"2027-06-28","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8447,"isLcc":false},{"date":"2027-06-28","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"13:30–16:25","price1p":8131,"isLcc":true},{"date":"2027-06-28","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8881,"isLcc":false},{"date":"2027-06-28","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8447,"isLcc":false},{"date":"2027-06-28","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8529,"isLcc":false},{"date":"2027-06-28","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":12324,"isLcc":false},{"date":"2027-06-28","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8881,"isLcc":false},{"date":"2027-06-28","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14902,"isLcc":false},{"date":"2027-06-28","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":38229,"isLcc":false},{"date":"2027-06-28","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14902,"isLcc":false},{"date":"2027-06-28","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8447,"isLcc":false},{"date":"2027-06-28","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8881,"isLcc":false},{"date":"2027-06-29","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8033,"isLcc":false},{"date":"2027-06-29","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5919,"isLcc":true},{"date":"2027-06-29","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8447,"isLcc":false},{"date":"2027-06-29","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8881,"isLcc":false},{"date":"2027-06-29","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8447,"isLcc":false},{"date":"2027-06-29","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8529,"isLcc":false},{"date":"2027-06-29","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9965,"isLcc":false},{"date":"2027-06-29","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8881,"isLcc":false},{"date":"2027-06-29","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14902,"isLcc":false},{"date":"2027-06-29","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33470,"isLcc":false},{"date":"2027-06-29","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14902,"isLcc":false},{"date":"2027-06-29","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8447,"isLcc":false},{"date":"2027-06-29","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8881,"isLcc":false},{"date":"2027-06-29","dir":"回程","airline":"台灣虎航","flightNo":"IT701","time":"20:45–23:25","price1p":5937,"isLcc":true},{"date":"2027-06-30","dir":"回程","airline":"中華航空","flightNo":"CI107","time":"09:35–12:15","price1p":8033,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"酷航","flightNo":"TR899","time":"12:30–15:10","price1p":5919,"isLcc":true},{"date":"2027-06-30","dir":"回程","airline":"長榮航空","flightNo":"BR183","time":"13:25–16:05","price1p":8447,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"台灣虎航","flightNo":"IT201","time":"13:30–16:25","price1p":5606,"isLcc":true},{"date":"2027-06-30","dir":"回程","airline":"星宇航空","flightNo":"JX801","time":"14:10–16:50","price1p":8881,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"長榮航空","flightNo":"BR197","time":"14:25–17:05","price1p":8447,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"中華航空","flightNo":"CI101","time":"14:30–17:15","price1p":8529,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"國泰航空","flightNo":"CX451","time":"15:45–18:25","price1p":9965,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"星宇航空","flightNo":"JX803","time":"16:20–19:00","price1p":8881,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"中華航空","flightNo":"CI105","time":"17:55–20:35","price1p":14902,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"日本航空","flightNo":"JL809","time":"18:05–20:45","price1p":33470,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"中華航空","flightNo":"CI109","time":"20:00–22:45","price1p":14902,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"長榮航空","flightNo":"BR195","time":"20:40–23:20","price1p":8447,"isLcc":false},{"date":"2027-06-30","dir":"回程","airline":"星宇航空","flightNo":"JX805","time":"20:40–23:20","price1p":8881,"isLcc":false}]};
+
+    const DEFAULT_JUNE_ROUND_TRIP = {
+      '2027-06-01|2027-06-03': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 18654, updatedAt: '2026-11-27 18:25' },
+      '2027-06-01|2027-06-04': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 19504, updatedAt: '2026-11-27 18:25' },
+      '2027-06-01|2027-06-05': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15800, '日本航空': 17754, updatedAt: '2026-11-27 18:25' },
+      '2027-06-01|2027-06-06': { '中華航空': 14935, '長榮航空': 17408, '星宇航空': 14936, '國泰航空': 15800, '日本航空': 19504, updatedAt: '2026-11-27 18:25' },
+      '2027-06-01|2027-06-07': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15550, '日本航空': 19504, updatedAt: '2026-11-27 18:25' },
+      '2027-06-02|2027-06-04': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 19504, updatedAt: '2026-11-27 18:25' },
+      '2027-06-02|2027-06-05': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15800, '日本航空': 17754, updatedAt: '2026-11-27 18:25' },
+      '2027-06-02|2027-06-06': { '中華航空': 14935, '長榮航空': 17408, '星宇航空': 14936, '國泰航空': 15800, '日本航空': 19504, updatedAt: '2026-11-27 18:25' },
+      '2027-06-02|2027-06-07': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15550, '日本航空': 19504, updatedAt: '2026-11-27 18:25' },
+      '2027-06-02|2027-06-08': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 20254, updatedAt: '2026-11-27 18:25' },
+      '2027-06-03|2027-06-05': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15800, '日本航空': 17754, updatedAt: '2026-11-27 18:25' },
+      '2027-06-03|2027-06-06': { '中華航空': 14935, '長榮航空': 17408, '星宇航空': 14936, '國泰航空': 15800, '日本航空': 19504, updatedAt: '2026-11-27 18:25' },
+      '2027-06-03|2027-06-07': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15550, '日本航空': 19504, updatedAt: '2026-11-27 18:25' },
+      '2027-06-03|2027-06-08': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 20254, updatedAt: '2026-11-27 18:25' },
+      '2027-06-03|2027-06-09': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 19504, updatedAt: '2026-11-27 18:25' },
+      '2027-06-04|2027-06-06': { '中華航空': 14935, '長榮航空': 17408, '星宇航空': 14936, '國泰航空': 15800, '日本航空': 21004, updatedAt: '2026-11-27 18:25' },
+      '2027-06-04|2027-06-07': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15550, '日本航空': 21004, updatedAt: '2026-11-27 18:25' },
+      '2027-06-04|2027-06-08': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 21754, updatedAt: '2026-11-27 18:25' },
+      '2027-06-04|2027-06-09': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 21004, updatedAt: '2026-11-27 18:25' },
+      '2027-06-04|2027-06-10': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 21004, updatedAt: '2026-11-27 18:25' },
+      '2027-06-05|2027-06-07': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 16050, '日本航空': 17754, updatedAt: '2026-11-27 18:25' },
+      '2027-06-05|2027-06-08': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15800, '日本航空': 18504, updatedAt: '2026-11-27 18:25' },
+      '2027-06-05|2027-06-09': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15800, '日本航空': 17754, updatedAt: '2026-11-27 18:25' },
+      '2027-06-05|2027-06-10': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15800, '日本航空': 17754, updatedAt: '2026-11-27 18:25' },
+      '2027-06-05|2027-06-11': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15800, '日本航空': 17754, updatedAt: '2026-11-27 18:25' },
+      '2027-06-06|2027-06-08': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 21004, updatedAt: '2026-11-27 18:25' },
+      '2027-06-06|2027-06-09': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 20254, updatedAt: '2026-11-27 18:25' },
+      '2027-06-06|2027-06-10': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 20254, updatedAt: '2026-11-27 18:25' },
+      '2027-06-06|2027-06-11': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 20254, updatedAt: '2026-11-27 18:25' },
+      '2027-06-06|2027-06-12': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 15625, '國泰航空': 15800, '日本航空': 18504, updatedAt: '2026-11-27 18:25' },
+      '2027-06-07|2027-06-09': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 19504, updatedAt: '2026-11-27 18:25' },
+      '2027-06-07|2027-06-10': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 19504, updatedAt: '2026-11-27 18:25' },
+      '2027-06-07|2027-06-11': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 19504, updatedAt: '2026-11-27 18:25' },
+      '2027-06-07|2027-06-12': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 15625, '國泰航空': 15800, '日本航空': 17754, updatedAt: '2026-11-27 18:25' },
+      '2027-06-07|2027-06-13': { '中華航空': 14935, '長榮航空': 17408, '星宇航空': 15625, '國泰航空': 16200, '日本航空': 21004, updatedAt: '2026-11-27 18:25' },
+      '2027-06-08|2027-06-10': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 19504, updatedAt: '2026-11-27 18:25' },
+      '2027-06-08|2027-06-11': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 19504, updatedAt: '2026-11-27 18:25' },
+      '2027-06-08|2027-06-12': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 15625, '國泰航空': 15800, '日本航空': 17754, updatedAt: '2026-11-27 18:25' },
+      '2027-06-08|2027-06-13': { '中華航空': 14935, '長榮航空': 17408, '星宇航空': 15625, '國泰航空': 16200, '日本航空': 21004, updatedAt: '2026-11-27 18:25' },
+      '2027-06-08|2027-06-14': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15800, '日本航空': 19504, updatedAt: '2026-11-27 18:25' },
+      '2027-06-09|2027-06-11': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 21004, updatedAt: '2026-11-27 18:25' },
+      '2027-06-09|2027-06-12': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 15625, '國泰航空': 15800, '日本航空': 19254, updatedAt: '2026-11-27 18:25' },
+      '2027-06-09|2027-06-13': { '中華航空': 14935, '長榮航空': 17408, '星宇航空': 15625, '國泰航空': 16200, '日本航空': 22504, updatedAt: '2026-11-27 18:25' },
+      '2027-06-09|2027-06-14': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15800, '日本航空': 21004, updatedAt: '2026-11-27 18:25' },
+      '2027-06-09|2027-06-15': { '中華航空': 14935, '長榮航空': 15162, '星宇航空': 14936, '國泰航空': 15300, '日本航空': 21004, updatedAt: '2026-11-27 18:25' }
+    };
+    const FSC_ROUND_TRIP_REF = {
+      '中華航空': { min1p: 14935, morning1p: 16278, note: '全時段最低 NT$14,935／人起（早班 CI100 NT$16,278／人起）' },
+      '長榮航空': { min1p: 15162, morning1p: 16407, note: '全時段最低 NT$15,162／人起（早班 BR184/198 NT$16,407／人起）' },
+      '星宇航空': { min1p: 15625, morning1p: 16596, note: '全時段最低 NT$15,625／人起（早班 JX800 NT$16,596／人起）' },
+      '國泰航空': { min1p: 15800, morning1p: 15800, note: '直飛來回最低 NT$15,800／人起（CX450 + CX451）' },
+      '日本航空': { min1p: 17754, morning1p: 17754, note: '直飛來回最低 NT$17,754／人起（JL802 + JL809）' }
+    };
+
+    const AIRLINE_LEG_URLS = {
+      '台灣虎航': { out: 'https://www.flightstats.com/v2/flight-tracker/route/TPE/NRT', ret: 'https://www.flightstats.com/v2/flight-tracker/route/NRT/TPE' },
+      '酷航': { out: 'https://www.taoyuan-airport.com/flight_depart?k=&time=all', ret: 'https://www.taoyuan-airport.com/flight_depart?k=&time=all' },
+      '中華航空': { out: 'https://www.travemon.jp/special/airlines_china-airline/', ret: 'https://www.travemon.jp/special/airlines_china-airline/' },
+      '長榮航空': { out: 'https://www.flightstats.com/v2/flight-tracker/route/TPE/NRT', ret: 'https://2lnr.com/routes/nrt-tpe' },
+      '星宇航空': { out: 'https://tw.trip.com/flights/status-jx800/', ret: 'https://tw.trip.com/flights/status-jx800/' },
+      '國泰航空': { out: 'https://zh-tw.flightaware.com/live/flight/CPA450', ret: 'https://zh-tw.flightaware.com/live/flight/CPA451' },
+      '日本航空': { out: 'https://www.jal.co.jp/jp/en/', ret: 'https://www.jal.co.jp/jp/en/' }
+    };
+
+    function buildCombosFromLegLists(outList, retList) {
+      const combos = [];
+      let seq = 1;
+      outList.forEach(o => {
+        retList.forEach(r => {
+          let category = null;
+          if (o.isLcc && r.isLcc) category = 'lcc_lcc';
+          else if (o.isLcc && !r.isLcc) category = 'lcc_fsc';
+          else if (!o.isLcc && !r.isLcc && o.airline !== r.airline) category = 'fsc_fsc';
+          else if (!o.isLcc && !r.isLcc && o.airline === r.airline) category = 'fsc_same';
+          if (!category) return;
+
+          const pOut = LEG_POLICIES[o.airline] || {};
+          const pRet = LEG_POLICIES[r.airline] || {};
+          const singleTotal = o.price1p + r.price1p;
+
+          let refundType = 'refundable';
+          let refundLabel = '可改期／可退票';
+          if (o.isLcc && r.isLcc) {
+            refundType = 'nonrefundable';
+            refundLabel = '去回皆可改不可退';
+          } else if (o.isLcc && !r.isLcc) {
+            refundType = 'nonrefundable';
+            refundLabel = pRet.refundType === 'conditional' ? '去程可改不可退／回程視艙等可退' : '去程可改不可退／回程可改可退';
+          } else if (pOut.refundType === 'conditional' || pRet.refundType === 'conditional') {
+            refundType = 'conditional';
+            refundLabel = '可改期／視艙等可退';
+          }
+
+          const outUrl = o.url || (AIRLINE_LEG_URLS[o.airline] && AIRLINE_LEG_URLS[o.airline].out) || '';
+          const retUrl = r.url || (AIRLINE_LEG_URLS[r.airline] && AIRLINE_LEG_URLS[r.airline].ret) || '';
+
+          combos.push({
+            id: 'dyn-' + category + '-' + (seq++),
+            category: category,
+            refundType: refundType,
+            refundLabel: refundLabel,
+            outbound: { airline: o.airline, flightNo: o.flightNo, time: o.time, url: outUrl, fareNote: o.fareNote || '單程直飛經濟艙含託運' },
+            returnLeg: { airline: r.airline, flightNo: r.flightNo, time: r.time, url: retUrl, fareNote: r.fareNote || '單程直飛經濟艙含託運' },
+            baseTotal: singleTotal * 4,
+            highTotal: null,
+            priceNote: category === 'lcc_lcc' ? '去回含 20kg 託運（單人疊加）' : (category === 'lcc_fsc' ? '已含廉航 20kg 託運（單人疊加）' : '全時段直營組合（單人疊加）'),
+            paidSeatLegs: o.isLcc && r.isLcc ? 2 : 1,
+            baggagePolicy: o.airline === r.airline ? (pOut.bag || '') : ((pOut.bag || '') + '；' + (pRet.bag || '')),
+            policyUrl: pOut.policyUrl || '',
+            policySource: pOut.policySource || (o.airline + '規定'),
+            secondaryPolicyUrl: o.airline !== r.airline ? (pRet.policyUrl || null) : null,
+            secondaryPolicySource: o.airline !== r.airline ? (pRet.policySource || null) : null,
+            seatPolicy: o.airline === r.airline ? (pOut.seat || '') : ((pOut.seat || '') + '；' + (pRet.seat || '')),
+            seatUrl: pOut.seatUrl || ''
+          });
+        });
+      });
+      return combos;
+    }
+
+    function hasJuneLegsForDates(departDate, returnDate) {
+      if (!state.juneLegs) return false;
+      const hasOut = state.juneLegs.outbound.some(l => l.date === departDate);
+      const hasRet = state.juneLegs.return.some(l => l.date === returnDate);
+      return hasOut && hasRet;
+    }
+
+    function buildCombosForSelectedDates(departDate, returnDate) {
+      if (state.juneLegs) {
+        const outList = state.juneLegs.outbound.filter(l => l.date === departDate);
+        const retList = state.juneLegs.return.filter(l => l.date === returnDate);
+        if (outList.length > 0 && retList.length > 0) {
+          return buildCombosFromLegLists(outList, retList);
+        }
+      }
+      return buildAllCustomCombos(state.sheetFlights || DEFAULT_FLIGHTS);
+    }
+
+    function rebuildFlightsForSelectedDates() {
+      state.flights = buildCombosForSelectedDates(state.departDate, state.returnDate);
+    }
+
     const state = {
-      flights: JSON.parse(JSON.stringify(DEFAULT_FLIGHTS)),
+      juneLegs: DEFAULT_JUNE_LEGS,
+      juneRoundTrip: DEFAULT_JUNE_ROUND_TRIP,
+      sheetFlights: DEFAULT_FLIGHTS,
+      flights: buildCombosFromLegLists(
+        DEFAULT_JUNE_LEGS.outbound.filter(l => l.date === '2027-06-08'),
+        DEFAULT_JUNE_LEGS.return.filter(l => l.date === '2027-06-12')
+      ),
       history: JSON.parse(JSON.stringify(DEFAULT_HISTORY)),
       adults: 4,
       children: 0,
       departDate: '2027-06-08',
       returnDate: '2027-06-12',
-      outStartHour: 5,
-      outEndHour: 10,
-      retStartHour: 15,
-      retEndHour: 21,
+      outStartHour: 0,
+      outEndHour: 23,
+      retStartHour: 0,
+      retEndHour: 23,
       favorites: [],
       compareMode: 'all3',
       refundFilter: 'all',
       favOnly: false,
       sortMode: 'price',
+      fscTab: 'diff',
+      fscSameAirline: '',
       searchQuery: '',
       priceMode: 'total',
       budgetMode: 'total',
@@ -1151,7 +1687,7 @@
       historyIsSingle: false,
       trend30Mode: 'single',
       trendComboId: 'summary',
-      lastUpdated: '2026/11/25'
+      lastUpdated: '2026/11/27'
     };
 
     let mainChartInstance = null;
@@ -1227,9 +1763,15 @@
       const el = document.getElementById('nextHourlySlotLabel');
       if (!el) return;
       const now = new Date();
-      const nextHour = (now.getHours() + 1) % 24;
-      const nextStr = String(nextHour).padStart(2, '0') + ':00';
-      el.textContent = '目前 ' + getCurrentHourlySlotStr() + '・下次 ' + nextStr;
+      const curMin = now.getHours() * 60 + now.getMinutes();
+      const slots = [
+        { min: 8 * 60, label: '08:00 全月單程' },
+        { min: 9 * 60, label: '09:00 來回第1批' },
+        { min: 14 * 60, label: '14:00 來回第2批' },
+        { min: 19 * 60, label: '19:00 來回第3批' }
+      ];
+      const nextSlot = slots.find(s => s.min > curMin) || { label: '明日 08:00 全月單程' };
+      el.textContent = '下次 ' + nextSlot.label;
     }
 
     function loadPersistedState() {
@@ -1468,6 +2010,17 @@
         .sort(compareFlights);
     }
 
+    function parseFlightTimeRange(timeStr) {
+      if (!timeStr) return null;
+      const matches = String(timeStr).match(/(\d{1,2}):(\d{2})/g);
+      if (!matches || matches.length < 2) return null;
+      const toMin = (s) => {
+        const [h, m] = s.split(':').map(Number);
+        return h * 60 + m;
+      };
+      return { dep: toMin(matches[0]), arr: toMin(matches[1]) };
+    }
+
     function filterFlights(category) {
       const q = state.searchQuery.trim().toLowerCase();
       const outMinBound = state.outStartHour * 60;
@@ -1476,6 +2029,13 @@
       const retMaxBound = state.retEndHour * 60;
       return state.flights
         .filter(item => item.category === category)
+        .filter(item => {
+          if (category !== 'fsc_same') return true;
+          const outT = parseFlightTimeRange(item.outbound && item.outbound.time);
+          const retT = parseFlightTimeRange(item.returnLeg && item.returnLeg.time);
+          if (outT && retT && retT.dep < outT.arr) return false;
+          return true;
+        })
         .filter(item => {
           const outDep = parseDepartureMinutes(item.outbound.time);
           const retDep = parseDepartureMinutes(item.returnLeg.time);
@@ -1506,8 +2066,7 @@
           ].join(' ').toLowerCase();
           return haystack.includes(q);
         })
-        .sort(compareFlights)
-        .slice(0, 5);
+        .sort(compareFlights);
     }
 
     function getRefundBadgeHtml(item) {
@@ -1723,6 +2282,7 @@
                   '<button type="button" data-action="policy" data-id="' + item.id + '" data-kind="return" class="text-indigo-600 hover:text-indigo-800 hover:underline cursor-pointer font-medium">回程來源</button>' +
                 '</div>';
               })() +
+
             '</td>' +
             '<td class="py-3.5 px-3 align-top text-xs text-slate-600 leading-relaxed">' +
               '<div>' + item.baggagePolicy + '</div>' +
@@ -2441,7 +3001,7 @@
       document.getElementById('detailContent').innerHTML =
         '<div class="flex flex-wrap items-center gap-2">' +
           getRefundBadgeHtml(item) +
-          '<span class="text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">' + (item.category === 'lcc_lcc' ? '去回程皆廉價航空' : (item.category === 'lcc_fsc' ? '去程廉航＋回程一般' : '去回程皆一般航空')) + '</span>' +
+          '<span class="text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">' + (item.category === 'lcc_lcc' ? '去回程皆廉價航空' : (item.category === 'lcc_fsc' ? '去程廉航＋回程一般' : (item.category === 'fsc_same' ? '去回程相同航空公司' : '去回程不同航空公司'))) + '</span>' +
         '</div>' +
         '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">' +
           '<div class="p-3 rounded-xl bg-slate-50 border border-slate-200">' +
@@ -2465,6 +3025,9 @@
             (diffBudget <= 0 ? '低於 ' + getPaxCount() + ' 人目標預算 ' + formatTWD(Math.abs(diffBudget)) : '高於 ' + getPaxCount() + ' 人目標預算 ' + formatTWD(diffBudget)) +
           '</div>' +
         '</div>' +
+        (((item.category === 'fsc_same' || (item.category === 'fsc_fsc' && item.outbound.airline === item.returnLeg.airline)))
+          ? '<div class="p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-800 leading-relaxed">(因追蹤系統限制，來回程為相同一般航空時，顯示價格可能會比實際購買價格高，準確資訊請以Skyscanner或航空公司官網資訊為準)</div>'
+          : '') +
         '<div class="space-y-2 text-xs text-slate-600">' +
           '<div><strong class="text-slate-800">行李與退改規定：</strong>' + item.baggagePolicy + '</div>' +
           '<div><strong class="text-slate-800">選位政策：</strong>' + item.seatPolicy + '</div>' +
@@ -2895,10 +3458,12 @@
       document.getElementById('btnPriceTotalMode').textContent = pax + ' 人總價';
       document.getElementById('btnBudgetTotalMode').textContent = pax + ' 人';
 
-      const isDefaultTrip = (state.departDate === '2027-06-08' && state.returnDate === '2027-06-12');
+      const hasRealDates = hasJuneLegsForDates(state.departDate, state.returnDate);
       document.getElementById('tripSummarySub').textContent =
         '目前設定：' + pax + ' 人・' + state.departDate.replace(/-/g, '/') + ' → ' + state.returnDate.replace(/-/g, '/') + '（' + days + ' 天 ' + nights + ' 夜）' +
-        (isDefaultTrip ? '｜顯示目前查價基準' : '｜票價依 06/08–06/12 每人基準換算，實際新日期票價請點右側 Skyscanner 查詢');
+        (hasRealDates
+          ? '｜已套用 ' + state.departDate.slice(5).replace('-', '/') + ' 去程 × ' + state.returnDate.slice(5).replace('-', '/') + ' 回程單程追蹤票價'
+          : '｜此日期不在 06/01–06/30 追蹤區間，暫以 06/08–06/12 基準換算');
 
       const rtTimes = (state.outStartHour * 60) + '-' + (state.outEndHour * 60) + ',' + (state.retStartHour * 60) + '-' + (state.retEndHour * 60);
       const skyUrl = buildSkyscannerUrl('TPE', 'NRT', state.departDate, state.returnDate, state.adults, state.children, rtTimes);
@@ -2907,19 +3472,79 @@
     }
 
     function renderAll() {
-      const lccItems = filterFlights('lcc_fsc');
-      const fscItems = filterFlights('fsc_fsc');
-      const lcc2Items = filterFlights('lcc_lcc');
+      const lccItems = filterFlights('lcc_fsc').slice(0, 5);
+      const fscDiffItems = filterFlights('fsc_fsc').slice(0, 5);
+      const allFscSameItems = filterFlights('fsc_same');
+      const fscSameAirlines = [...new Set(allFscSameItems.map(f => f.outbound.airline))];
+      if (fscSameAirlines.length > 0 && !fscSameAirlines.includes(state.fscSameAirline)) {
+        state.fscSameAirline = fscSameAirlines[0];
+      }
+      const fscSameSelect = document.getElementById('fscSameAirlineSelect');
+      if (fscSameSelect) {
+        fscSameSelect.innerHTML = fscSameAirlines.map(a =>
+          '<option value="' + a + '"' + (a === state.fscSameAirline ? ' selected' : '') + '>' + a + '</option>'
+        ).join('');
+        fscSameSelect.classList.toggle('hidden', state.fscTab !== 'same' || fscSameAirlines.length === 0);
+      }
+      const fscSameItems = allFscSameItems.filter(f => !state.fscSameAirline || f.outbound.airline === state.fscSameAirline);
+      const lcc2Items = filterFlights('lcc_lcc').slice(0, 5);
+      const activeFscItems = state.fscTab === 'same' ? fscSameItems : fscDiffItems;
+
+      const fscTitleEl = document.getElementById('fscSectionTitle');
+      const fscSubEl = document.getElementById('fscSectionSubtitle');
+      if (fscTitleEl) {
+        fscTitleEl.textContent = state.fscTab === 'same'
+          ? '去回程相同航空公司（' + (state.fscSameAirline || '一般航空') + ' 全部組合）'
+          : '去回程不同航空公司（最便宜前 5 名）';
+      }
+      if (fscSubEl) {
+        fscSubEl.textContent = state.fscTab === 'same'
+          ? '以單人全時段直營航班為基準並依所選人數疊加計價（排除聯營航班、筆數不限）；均含每人至少 1 件託運行李（23kg）'
+          : '嚴格時段單程組合（去程 05:00–10:00 ＋ 回程 15:00–21:00）；均含每人至少 1 件託運行李（23kg）';
+      }
+      const fscSameSel = document.getElementById('fscSameAirlineSelect');
+      if (fscSameSel) {
+        fscSameSel.addEventListener('change', (e) => {
+          state.fscSameAirline = e.target.value;
+          renderAll();
+        });
+      }
+
+      document.querySelectorAll('.fsc-tab-btn').forEach(btn => {
+        const isActive = btn.dataset.fscTab === state.fscTab;
+        btn.className = 'fsc-tab-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition cursor-pointer ' +
+          (isActive ? 'bg-indigo-600 text-white' : 'text-slate-600 hover:text-slate-900');
+      });
 
       updateTripUI();
       updateBudgetUI();
-      updateKPIs(lccItems, fscItems, lcc2Items);
+      updateKPIs(lccItems, fscDiffItems, lcc2Items);
       const favItems = getFavoriteFlights();
       renderTable('favTableBody', 'favTableBadge', favItems);
       renderTable('lccTableBody', 'lccTableBadge', lccItems);
-      renderTable('fscTableBody', 'fscTableBadge', fscItems);
+      renderTable('fscTableBody', 'fscTableBadge', activeFscItems);
+      const fscWarnEl = document.getElementById('fscSameWarningFooter');
+      if (fscWarnEl) {
+        fscWarnEl.classList.toggle('hidden', state.fscTab !== 'same');
+        if (state.fscTab === 'same') {
+          const pax = getPaxCount();
+          const selectedAirline = state.fscSameAirline || (fscSameAirlines[0] || '');
+          const depD = state.tripDepartDate || '2027-06-08';
+          const retD = state.tripReturnDate || '2027-06-12';
+          const rtRec = (state.juneRoundTrip || {})[depD + '|' + retD];
+          const rtPrice = rtRec && rtRec[selectedAirline];
+          const ref = (depD === '2027-06-08' && retD === '2027-06-12') ? FSC_ROUND_TRIP_REF[selectedAirline] : null;
+          let refHtml = '';
+          if (rtPrice) {
+            refHtml = '<div class="mb-1.5 font-semibold text-indigo-900">💡 ' + escapeHtml(depD.slice(5)) + ' → ' + escapeHtml(retD.slice(5)) + ' ' + escapeHtml(selectedAirline) + ' 真實來回開票價：每人 <span class="text-indigo-700">NT$' + rtPrice.toLocaleString() + '</span> 起（' + pax + ' 人估約 <span class="text-indigo-700">NT$' + (rtPrice * pax).toLocaleString() + '</span> 起；更新：' + escapeHtml(rtRec.updatedAt || '') + '）</div>';
+          } else if (ref) {
+            refHtml = '<div class="mb-1.5 font-semibold text-indigo-900">💡 主追蹤日（06/08 去 → 06/12 回）' + escapeHtml(selectedAirline) + ' 真實來回票參考：每人 <span class="text-indigo-700">NT$' + ref.min1p.toLocaleString() + '</span> 起（' + pax + ' 人估約 <span class="text-indigo-700">NT$' + (ref.min1p * pax).toLocaleString() + '</span> 起；' + escapeHtml(ref.note) + '）</div>';
+          }
+          fscWarnEl.innerHTML = refHtml + '<div>(因追蹤系統限制，來回程為相同一般航空時，顯示價格可能會比實際購買價格高，準確資訊請以Skyscanner或航空公司官網資訊為準)</div>';
+        }
+      }
       renderTable('lcc2TableBody', 'lcc2TableBadge', lcc2Items);
-      renderChart(lccItems, fscItems, lcc2Items);
+      renderChart(lccItems, fscDiffItems, lcc2Items);
       renderTrend30Table();
 
       // Update button active states
@@ -2971,27 +3596,48 @@
       });
       document.getElementById('tripDepartDate').addEventListener('change', (e) => {
         if (!e.target.value) return;
-        state.departDate = e.target.value;
+        let val = e.target.value;
+        if (val < '2027-06-01' || val > '2027-06-30') {
+          showToast('目前可選日期限定為 2027/06/01–06/30');
+          val = val < '2027-06-01' ? '2027-06-01' : '2027-06-30';
+          e.target.value = val;
+        }
+        state.departDate = val;
         if (state.returnDate < state.departDate) {
           state.returnDate = state.departDate;
           document.getElementById('tripReturnDate').value = state.returnDate;
         }
+        rebuildFlightsForSelectedDates();
         renderAll();
       });
       document.getElementById('tripReturnDate').addEventListener('change', (e) => {
         if (!e.target.value) return;
-        if (e.target.value < state.departDate) {
+        let val = e.target.value;
+        if (val < '2027-06-01' || val > '2027-06-30') {
+          showToast('目前可選日期限定為 2027/06/01–06/30');
+          val = val < '2027-06-01' ? '2027-06-01' : '2027-06-30';
+          e.target.value = val;
+        }
+        if (val < state.departDate) {
           showToast('回程日期不可早於去程日期');
           e.target.value = state.returnDate;
           return;
         }
-        state.returnDate = e.target.value;
+        state.returnDate = val;
+        rebuildFlightsForSelectedDates();
         renderAll();
       });
       const activeCats = getActiveCategories();
       document.getElementById('tableSectionLcc').classList.toggle('hidden', !activeCats.includes('lcc_fsc'));
       document.getElementById('tableSectionFsc').classList.toggle('hidden', !activeCats.includes('fsc_fsc'));
       document.getElementById('tableSectionLcc2').classList.toggle('hidden', !activeCats.includes('lcc_lcc'));
+
+      document.querySelectorAll('.fsc-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.fscTab = btn.dataset.fscTab || 'diff';
+          renderAll();
+        });
+      });
 
       document.querySelectorAll('.compare-mode-btn').forEach(btn => {
         const active = btn.dataset.compareMode === state.compareMode;
@@ -3046,17 +3692,17 @@
       if (trendComboSel) trendComboSel.value = state.trendComboId;
       if (hourlyRangeSel && state.hourlyRange) hourlyRangeSel.value = state.hourlyRange;
       if (state.chartTab === 'history' || state.chartTab === 'hourly') {
-        subControls.classList.remove('hidden');
-        subControls.classList.add('flex');
-        if (state.chartTab === 'hourly') {
-          hourlyRangeSel.classList.remove('hidden');
-        } else {
-          hourlyRangeSel.classList.add('hidden');
+        if (subControls) {
+          subControls.classList.remove('hidden');
+          subControls.classList.add('flex');
         }
+        if (hourlyRangeSel) hourlyRangeSel.classList.add('hidden');
       } else {
-        subControls.classList.add('hidden');
-        subControls.classList.remove('flex');
-        hourlyRangeSel.classList.add('hidden');
+        if (subControls) {
+          subControls.classList.add('hidden');
+          subControls.classList.remove('flex');
+        }
+        if (hourlyRangeSel) hourlyRangeSel.classList.add('hidden');
       }
 
       const favBtn = document.getElementById('btnFavOnly');
@@ -3222,10 +3868,70 @@
         statusEl.textContent = '同步 Google 試算表中…';
       }
       try {
-        const [latestRows, histRows] = await Promise.all([
-          fetchSheetRowsWithFallback('單人最新組合').catch(() => fetchSheetRowsWithFallback('最新組合')),
-          fetchSheetRowsWithFallback('單人歷史走勢').catch(() => fetchSheetRowsWithFallback('歷史走勢'))
+        const [latestRows, histRows, juneRows, rtRows] = await Promise.all([
+          Promise.resolve([]),
+          Promise.resolve([]),
+          fetchSheetRowsWithFallback('6月單程班次').catch(() => []),
+          fetchSheetRowsWithFallback('6月同航空來回').catch(() => [])
         ]);
+        if (Array.isArray(rtRows) && rtRows.length >= 2) {
+          const parsedRt = {};
+          for (let i = 1; i < rtRows.length; i++) {
+            const r = rtRows[i];
+            const dep = normalizeDateStr((r[0] || '').trim());
+            const ret = normalizeDateStr((r[1] || '').trim());
+            if (!dep || !ret) continue;
+            const ci = parseInt(String(r[3] || '').replace(/[^0-9]/g, ''), 10);
+            const br = parseInt(String(r[4] || '').replace(/[^0-9]/g, ''), 10);
+            const jx = parseInt(String(r[5] || '').replace(/[^0-9]/g, ''), 10);
+            const cx = parseInt(String(r[6] || '').replace(/[^0-9]/g, ''), 10);
+            const jl = parseInt(String(r[7] || '').replace(/[^0-9]/g, ''), 10);
+            const upd = (r[8] || '').trim();
+            if (!isNaN(ci) || !isNaN(br) || !isNaN(jx) || !isNaN(cx) || !isNaN(jl)) {
+              parsedRt[dep + '|' + ret] = {
+                '中華航空': isNaN(ci) ? null : ci,
+                '長榮航空': isNaN(br) ? null : br,
+                '星宇航空': isNaN(jx) ? null : jx,
+                '國泰航空': isNaN(cx) ? null : cx,
+                '日本航空': isNaN(jl) ? null : jl,
+                updatedAt: upd || '已同步'
+              };
+            }
+          }
+          if (Object.keys(parsedRt).length > 0) {
+            state.juneRoundTrip = Object.assign({}, DEFAULT_JUNE_ROUND_TRIP, parsedRt);
+          }
+        }
+
+        if (Array.isArray(juneRows) && juneRows.length >= 2) {
+          const parsedOut = [];
+          const parsedRet = [];
+          for (let i = 1; i < juneRows.length; i++) {
+            const r = juneRows[i];
+            const dateVal = normalizeDateStr((r[0] || '').trim());
+            const dirVal = (r[1] || '').trim();
+            const airlineVal = (r[2] || '').trim();
+            const flightNoVal = (r[3] || '').trim();
+            const timeVal = (r[4] || '').trim();
+            const priceNum = parseInt(String(r[5] || '').replace(/[^0-9]/g, ''), 10);
+            const isLccVal = String(r[6] || '').trim() === '是';
+            if (!dateVal || !airlineVal || !flightNoVal || isNaN(priceNum)) continue;
+            const legObj = {
+              date: dateVal,
+              dir: dirVal,
+              airline: airlineVal,
+              flightNo: flightNoVal,
+              time: timeVal,
+              price1p: priceNum,
+              isLcc: isLccVal
+            };
+            if (dirVal === '去程') parsedOut.push(legObj);
+            else if (dirVal === '回程') parsedRet.push(legObj);
+          }
+          if (parsedOut.length > 0 && parsedRet.length > 0) {
+            state.juneLegs = { outbound: parsedOut, return: parsedRet };
+          }
+        }
 
         if (latestRows.length >= 2) {
           const parsedFlights = [];
@@ -3237,7 +3943,7 @@
             const totalNum = parseInt(String(r[12] || '').replace(/[^0-9]/g, ''), 10);
             if (isNaN(totalNum)) continue;
             const catText = (r[1] || '').trim();
-            const category = catText.includes('皆廉') ? 'lcc_lcc' : (catText.includes('廉航') ? 'lcc_fsc' : 'fsc_fsc');
+            const category = catText.includes('皆廉') ? 'lcc_lcc' : (catText.includes('廉航') ? 'lcc_fsc' : ((catText.includes('相同') || id.startsWith('fsc-same-')) ? 'fsc_same' : 'fsc_fsc'));
             parsedFlights.push({
               id: id,
               category: category,
@@ -3275,9 +3981,13 @@
             if (!hasLccLcc) {
               parsedFlights.push(...DEFAULT_FLIGHTS.filter(f => f.category === 'lcc_lcc'));
             }
-            state.flights = parsedFlights;
+            if (!parsedFlights.some(f => f.category === 'fsc_same')) {
+              parsedFlights.push(...DEFAULT_FLIGHTS.filter(f => f.category === 'fsc_same'));
+            }
+            state.sheetFlights = parsedFlights;
           }
         }
+        rebuildFlightsForSelectedDates();
 
         if (histRows.length >= 2) {
           let headerIdx = 0;
